@@ -1,24 +1,16 @@
-
-require("dotenv").config();
-
-const express = require("express");
-const cors = require("cors");
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-	res.json({
-		status: "online",
-		projeto: "FXBOT Trader",
-		versao: "1.0"
-	});
-});
+const http = require("http");
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Servidor iniciado na porta ${PORT}`);
+http.createServer((req, res) => {
+    res.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+
+    res.end(JSON.stringify({
+        ok: true,
+        message: "FXBOT ONLINE"
+    }));
+}).listen(PORT, "0.0.0.0", () => {
+    console.log("Servidor iniciado:", PORT);
 });
