@@ -10,11 +10,14 @@
   "author": "Weliton",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/cli": "^4.3.2",
     "axios": "^1.18.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "tailwindcss": "^4.3.2",
     "ws": "^8.21.0"
   }
 }

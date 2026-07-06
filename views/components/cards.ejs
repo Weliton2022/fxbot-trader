@@ -1,0 +1,44 @@
+<div class="cards">
+
+    <div class="card">
+        <h3>💰 Conta Demo</h3>
+
+        <% if (contaDemo) { %>
+
+            <p><strong>Saldo:</strong> USD <%= contaDemo.balance %></p>
+            <p><strong>Conta:</strong> <%= contaDemo.account_id %></p>
+
+        <% } else { %>
+
+            <p>Conta Demo não encontrada.</p>
+
+        <% } %>
+
+    </div>
+
+    <div class="card">
+        <h3>🏦 Conta Real</h3>
+
+        <% if (contaReal) { %>
+
+            <p><strong>Saldo:</strong> USD <%= contaReal.balance %></p>
+            <p><strong>Conta:</strong> <%= contaReal.account_id %></p>
+
+        <% } else { %>
+
+            <p>Conta Real não encontrada.</p>
+
+        <% } %>
+
+    </div>
+
+    <div class="card">
+        <h3>🤖 FXBOT</h3>
+
+        <p>🟢 API Online</p>
+
+        <p>Pronto para operar</p>
+
+    </div>
+
+</div>
