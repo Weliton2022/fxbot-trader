@@ -46,6 +46,8 @@ module.exports = {
 
     BUY_MESSAGE: "buy_message",
 
+    OPEN_CONTRACT_MESSAGE: "open_contract_message",
+
     BALANCE_MESSAGE: "balance_message",
 
     AUTHORIZE_MESSAGE: "authorize_message",

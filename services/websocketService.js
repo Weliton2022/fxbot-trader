@@ -117,6 +117,18 @@ class WebSocketService {
 
                 break;
 
+            case "proposal_open_contract":
+
+                eventBus.emit(
+
+                EVENTS.OPEN_CONTRACT_MESSAGE,
+
+                mensagem
+
+    );
+
+    break;
+
             default:
 
                 console.log(`📩 MSG NÃO TRATADA: ${mensagem.msg_type}`);
