@@ -23,17 +23,32 @@ class ProposalEngine {
 
             console.log("Erro:");
             console.log(mensagem.error.message);
+            console.log("");
 
             return;
 
         }
 
-        console.log(`ID       : ${mensagem.proposal.id}`);
-        console.log(`Ask Price: ${mensagem.proposal.ask_price}`);
-        console.log(`Payout   : ${mensagem.proposal.payout}`);
-        console.log(`Spot     : ${mensagem.proposal.spot}`);
+        const proposal = mensagem.proposal;
 
+        console.log(`ID       : ${proposal.id}`);
+        console.log(`Ask Price: ${proposal.ask_price}`);
+        console.log(`Payout   : ${proposal.payout}`);
+        console.log(`Spot     : ${proposal.spot}`);
         console.log("");
+
+        console.log("📢 Disparando BUY_REQUESTED...");
+        console.log("");
+
+        eventBus.emit(EVENTS.BUY_REQUESTED, {
+
+            proposalId: proposal.id,
+
+            price: proposal.ask_price,
+
+            proposal
+
+        });
 
     }
 
