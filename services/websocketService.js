@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
@@ -58,6 +59,20 @@ class WebSocketService {
 
     processarMensagem(mensagem) {
 
+        console.log("");
+        console.log("📨 MENSAGEM DERIV");
+        console.log("----------------------------------");
+        console.log(JSON.stringify(mensagem, null, 2));
+        console.log("");
+
+        if (mensagem.error) {
+
+            eventBus.emit(EVENTS.ERROR_MESSAGE, mensagem);
+
+            return;
+
+        }
+
         switch (mensagem.msg_type) {
 
             case "active_symbols":
@@ -69,6 +84,12 @@ class WebSocketService {
             case "tick":
 
                 eventBus.emit(EVENTS.TICK_MESSAGE, mensagem);
+
+                break;
+
+            case "history":
+
+                eventBus.emit(EVENTS.HISTORY_MESSAGE, mensagem);
 
                 break;
 
@@ -96,15 +117,9 @@ class WebSocketService {
 
                 break;
 
-            case "error":
-
-                eventBus.emit(EVENTS.ERROR_MESSAGE, mensagem);
-
-                break;
-
             default:
 
-                console.log(`📩 MSG: ${mensagem.msg_type}`);
+                console.log(`📩 MSG NÃO TRATADA: ${mensagem.msg_type}`);
 
         }
 
@@ -119,6 +134,12 @@ class WebSocketService {
             return;
 
         }
+
+        console.log("");
+        console.log("📤 ENVIANDO PARA DERIV");
+        console.log("----------------------------------");
+        console.log(JSON.stringify(comando, null, 2));
+        console.log("");
 
         this.ws.send(JSON.stringify(comando));
 

@@ -19,6 +19,10 @@ module.exports = {
     // Histórico de candles
     MAX_CANDLES: 500,
 
+    // Indicadores
+SMA_FAST: 3,
+SMA_SLOW: 5,
+
     // Execução
     DEFAULT_STAKE: 1,
     DEFAULT_DURATION: 5

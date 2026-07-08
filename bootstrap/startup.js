@@ -3,6 +3,9 @@ const indicatorEngine = require("../engine/indicatorEngine");
 const strategyEngine = require("../engine/strategyEngine");
 const signalValidator = require("../engine/signalValidator");
 const executionEngine = require("../engine/executionEngine");
+const proposalEngine = require("../engine/proposalEngine");
+const marketDataEngine = require("../engine/marketDataEngine");
+const buyEngine = require("../engine/buyEngine");
 
 const marketEngine = require("../services/marketEngine");
 
@@ -13,6 +16,9 @@ async function startup() {
     void strategyEngine;
     void signalValidator;
     void executionEngine;
+    void proposalEngine;
+    void marketDataEngine;
+    void buyEngine;
 
     console.log("");
     console.log("====================================");

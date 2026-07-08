@@ -18,7 +18,7 @@ class ProposalService {
 
             duration_unit: "t",
 
-            symbol: request.symbol,
+            underlying_symbol: request.symbol,
 
             req_id: Date.now(),
 

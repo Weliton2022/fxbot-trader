@@ -26,6 +26,8 @@ module.exports = {
 
     PROPOSAL_RECEIVED: "proposal_received",
 
+    BUY_REQUESTED: "buy_requested",
+
     BUY_COMPLETED: "buy_completed",
 
     CONTRACT_UPDATED: "contract_updated",
@@ -38,6 +40,8 @@ module.exports = {
 
     TICK_MESSAGE: "tick_message",
 
+    HISTORY_MESSAGE: "history_message",
+    
     PROPOSAL_MESSAGE: "proposal_message",
 
     BUY_MESSAGE: "buy_message",
@@ -47,5 +51,7 @@ module.exports = {
     AUTHORIZE_MESSAGE: "authorize_message",
 
     ERROR_MESSAGE: "error_message"
+
+
 
 };

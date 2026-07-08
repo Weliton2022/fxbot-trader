@@ -6,6 +6,7 @@ const expressLayouts = require("express-ejs-layouts");
 
 // Rotas
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const testRoutes = require("./routes/testRoutes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Rotas
 app.use("/", dashboardRoutes);
+app.use("/test", testRoutes);
 
 // Porta
 const PORT = process.env.PORT || 3000;

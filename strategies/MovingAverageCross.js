@@ -1,4 +1,5 @@
 const Signal = require("../models/Signal");
+const config = require("../config/fxbot");
 
 class MovingAverageCross {
 
@@ -6,9 +7,9 @@ class MovingAverageCross {
 
         if (
 
-            indicadores.sma9 === null ||
+            indicadores.smaFast === null ||
 
-            indicadores.sma21 === null
+            indicadores.smaSlow === null
 
         ) {
 
@@ -26,7 +27,7 @@ class MovingAverageCross {
 
         }
 
-        if (indicadores.sma9 > indicadores.sma21) {
+        if (indicadores.smaFast > indicadores.smaSlow) {
 
             return new Signal({
 
@@ -36,13 +37,13 @@ class MovingAverageCross {
 
                 confidence: 80,
 
-                reason: "SMA 9 acima da SMA 21."
+                reason: `SMA ${config.SMA_FAST} acima da SMA ${config.SMA_SLOW}.`
 
             });
 
         }
 
-        if (indicadores.sma9 < indicadores.sma21) {
+        if (indicadores.smaFast < indicadores.smaSlow) {
 
             return new Signal({
 
@@ -52,7 +53,7 @@ class MovingAverageCross {
 
                 confidence: 80,
 
-                reason: "SMA 9 abaixo da SMA 21."
+                reason: `SMA ${config.SMA_FAST} abaixo da SMA ${config.SMA_SLOW}.`
 
             });
 

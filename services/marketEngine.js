@@ -45,7 +45,8 @@ class MarketEngine {
         console.log("✅ WebSocket conectado.");
         console.log("");
 
-        // Escuta apenas eventos do EventBus
+        // Escuta mensagens publicadas pelo WebSocketService
+
         eventBus.on(EVENTS.ACTIVE_SYMBOLS_MESSAGE, (mensagem) => {
 
             this.processarActiveSymbols(mensagem);
@@ -55,6 +56,13 @@ class MarketEngine {
         eventBus.on(EVENTS.TICK_MESSAGE, (mensagem) => {
 
             this.processarTick(mensagem);
+
+        });
+
+        // NOVO EVENTO
+        eventBus.on(EVENTS.HISTORY_MESSAGE, (mensagem) => {
+
+            this.processarHistory(mensagem);
 
         });
 
@@ -112,6 +120,17 @@ class MarketEngine {
     processarTick(mensagem) {
 
         marketService.atualizarTick(mensagem.tick);
+
+    }
+
+    // NOVO MÉTODO
+    processarHistory(mensagem) {
+
+        console.log("");
+        console.log("📚 HISTORY RECEBIDO");
+        console.log("----------------------------------");
+        console.log(JSON.stringify(mensagem, null, 2));
+        console.log("");
 
     }
 

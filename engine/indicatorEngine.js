@@ -1,6 +1,8 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
+
 const sma = require("../indicators/SMA");
+const config = require("../config/fxbot");
 
 class IndicatorEngine {
 
@@ -18,16 +20,17 @@ class IndicatorEngine {
 
         const indicadores = {
 
-            sma9: sma.calcular(candles, 9),
-            sma21: sma.calcular(candles, 21)
+            smaFast: sma.calcular(candles, config.SMA_FAST),
+
+            smaSlow: sma.calcular(candles, config.SMA_SLOW)
 
         };
 
         console.log("");
         console.log("📊 INDICADORES");
         console.log("----------------------------------");
-        console.log(`SMA 9 : ${indicadores.sma9?.toFixed(2) ?? "Aguardando..."}`);
-        console.log(`SMA 21: ${indicadores.sma21?.toFixed(2) ?? "Aguardando..."}`);
+        console.log(`SMA ${config.SMA_FAST}: ${indicadores.smaFast?.toFixed(2) ?? "Aguardando..."}`);
+        console.log(`SMA ${config.SMA_SLOW}: ${indicadores.smaSlow?.toFixed(2) ?? "Aguardando..."}`);
         console.log("");
 
         eventBus.emit(EVENTS.INDICATORS_UPDATED, indicadores);

@@ -53,6 +53,8 @@ class CandleEngine {
         // Fecha o candle
         this.candles.push(this.candleAtual);
 
+        console.log(`📚 Total de candles armazenados: ${this.candles.length}`);
+
         if (this.candles.length > config.MAX_CANDLES) {
 
             this.candles.shift();
