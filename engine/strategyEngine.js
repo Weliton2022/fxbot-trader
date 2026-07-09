@@ -2,6 +2,9 @@ const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 const movingAverageCross = require("../strategies/MovingAverageCross");
 
+const fxbotState = require("../services/fxbotStateService");
+const { STATES } = require("../services/fxbotStateService");
+
 class StrategyEngine {
 
     constructor() {
@@ -15,6 +18,8 @@ class StrategyEngine {
     }
 
     analisar(indicadores) {
+
+        fxbotState.setState(STATES.ANALYSING);
 
         const signal = movingAverageCross.analisar(indicadores);
 

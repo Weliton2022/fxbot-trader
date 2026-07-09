@@ -16,6 +16,8 @@ module.exports = {
 
     SIGNAL: "signal",
 
+    EXECUTE_TRADE: "execute_trade",
+
     TRADE_OPENED: "trade_opened",
 
     TRADE_CLOSED: "trade_closed",
@@ -32,8 +34,10 @@ module.exports = {
 
     CONTRACT_UPDATED: "contract_updated",
 
+    OPEN_CONTRACT_MESSAGE: "open_contract_message",
+
     // =====================================================
-    // WebSocket (Mensagens da Deriv)
+    // WebSocket
     // =====================================================
 
     ACTIVE_SYMBOLS_MESSAGE: "active_symbols_message",
@@ -41,19 +45,15 @@ module.exports = {
     TICK_MESSAGE: "tick_message",
 
     HISTORY_MESSAGE: "history_message",
-    
+
     PROPOSAL_MESSAGE: "proposal_message",
 
     BUY_MESSAGE: "buy_message",
-
-    OPEN_CONTRACT_MESSAGE: "open_contract_message",
 
     BALANCE_MESSAGE: "balance_message",
 
     AUTHORIZE_MESSAGE: "authorize_message",
 
     ERROR_MESSAGE: "error_message"
-
-
 
 };

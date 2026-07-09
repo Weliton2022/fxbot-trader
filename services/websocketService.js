@@ -31,15 +31,26 @@ class WebSocketService {
 
             });
 
-            this.ws.on("close", () => {
+            this.ws.on("close", (code, reason) => {
 
                 this.connected = false;
 
-                console.log("🔴 WebSocket desconectado.");
+                console.log("");
+                console.log("🔴 WEBSOCKET FECHADO");
+                console.log("----------------------------------");
+                console.log(`Código : ${code}`);
+                console.log(`Motivo : ${reason.toString()}`);
+                console.log("");
 
             });
 
             this.ws.on("error", (erro) => {
+
+                console.log("");
+                console.log("❌ ERRO WEBSOCKET");
+                console.log("----------------------------------");
+                console.log(erro);
+                console.log("");
 
                 reject(erro);
 
@@ -95,15 +106,36 @@ class WebSocketService {
 
             case "proposal":
 
-                eventBus.emit(EVENTS.PROPOSAL_MESSAGE, mensagem);
+    console.log("");
+    console.log("✅ EVENTO -> PROPOSAL_MESSAGE");
+    console.log("");
 
-                break;
+    eventBus.emit(EVENTS.PROPOSAL_MESSAGE, mensagem);
+
+    break;
 
             case "buy":
 
-                eventBus.emit(EVENTS.BUY_MESSAGE, mensagem);
+    console.log("");
+    console.log("✅ EVENTO -> BUY_MESSAGE");
+    console.log("");
 
-                break;
+    eventBus.emit(EVENTS.BUY_MESSAGE, mensagem);
+
+    break;
+
+            case "proposal_open_contract":
+
+    console.log("");
+    console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
+    console.log("");
+
+    eventBus.emit(
+        EVENTS.OPEN_CONTRACT_MESSAGE,
+        mensagem
+    );
+
+    break;
 
             case "balance":
 
@@ -116,18 +148,6 @@ class WebSocketService {
                 eventBus.emit(EVENTS.AUTHORIZE_MESSAGE, mensagem);
 
                 break;
-
-            case "proposal_open_contract":
-
-                eventBus.emit(
-
-                EVENTS.OPEN_CONTRACT_MESSAGE,
-
-                mensagem
-
-    );
-
-    break;
 
             default:
 

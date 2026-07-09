@@ -61,7 +61,7 @@ class SignalValidator {
         console.log("Status : APROVADO");
         console.log("");
 
-        eventBus.emit(EVENTS.TRADE_OPENED, signal);
+        eventBus.emit(EVENTS.EXECUTE_TRADE, signal);
 
     }
 

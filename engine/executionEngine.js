@@ -12,7 +12,7 @@ class ExecutionEngine {
 
     constructor() {
 
-        eventBus.on(EVENTS.TRADE_OPENED, async (signal) => {
+        eventBus.on(EVENTS.EXECUTE_TRADE, async (signal) => {
 
             await this.executar(signal);
 

@@ -1,6 +1,8 @@
 const BrokerService = require("./brokerService");
 const websocketService = require("./websocketService");
 const proposalService = require("./proposalService");
+const fxbotState = require("./fxbotStateService");
+const { STATES } = require("./fxbotStateService");
 
 class DerivBroker extends BrokerService {
 
@@ -23,10 +25,12 @@ class DerivBroker extends BrokerService {
         console.log("");
         console.log("📄 ENVIANDO PROPOSAL");
         console.log("----------------------------------");
-        console.log(JSON.stringify(proposal, null, 2));
-        console.log("");
+       console.log(JSON.stringify(proposal, null, 2));
+console.log("");
 
-        websocketService.enviar(proposal);
+fxbotState.setState(STATES.WAITING_PROPOSAL);
+
+websocketService.enviar(proposal);
 
         console.log("");
         console.log("✅ Proposal enviada ao WebSocket.");
@@ -43,13 +47,15 @@ class DerivBroker extends BrokerService {
     console.log(`Preço Máximo: ${price}`);
     console.log("");
 
-    websocketService.enviar({
+    fxbotState.setState(STATES.BUYING);
 
-        buy: proposalId,
+websocketService.enviar({
 
-        price
+    buy: proposalId,
 
-    });
+    price
+
+});
 
 }
 
