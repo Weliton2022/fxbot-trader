@@ -1,5 +1,6 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
+const tradeState = require("../services/tradeStateService");
 
 class SignalValidator {
 
@@ -35,6 +36,19 @@ class SignalValidator {
             console.log("----------------------------------");
             console.log("Status : Reprovado");
             console.log("Motivo : Confiança insuficiente.");
+            console.log("");
+
+            return;
+
+        }
+
+        if (tradeState.estaOperando()) {
+
+            console.log("");
+            console.log("🚫 TRADE MANAGER");
+            console.log("----------------------------------");
+            console.log("Status : Ignorado");
+            console.log("Motivo : Já existe uma operação aberta.");
             console.log("");
 
             return;

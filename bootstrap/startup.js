@@ -8,6 +8,7 @@ const marketDataEngine = require("../engine/marketDataEngine");
 const buyEngine = require("../engine/buyEngine");
 const contractMonitorEngine = require("../engine/contractMonitorEngine");
 const contractResultEngine = require("../engine/contractResultEngine");
+const tradeManager = require("../engine/tradeManager");
 
 const marketEngine = require("../services/marketEngine");
 
@@ -23,6 +24,7 @@ async function startup() {
     void buyEngine;
     void contractMonitorEngine;
     void contractResultEngine;
+    void tradeManager;
 
     console.log("");
     console.log("====================================");
