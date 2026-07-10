@@ -2,6 +2,7 @@ const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
 const websocketService = require("../services/websocketService");
+const contractRegistry = require("../services/contractRegistry");
 
 class ContractMonitorEngine {
 
@@ -24,6 +25,21 @@ class ContractMonitorEngine {
         }
 
         const contractId = mensagem.buy.contract_id;
+
+        // Registra oficialmente o contrato na plataforma
+        contractRegistry.registrar({
+
+            contractId,
+
+            buyPrice: mensagem.buy.buy_price ?? null,
+
+            symbol: mensagem.echo_req?.parameters?.symbol ?? null,
+
+            contractType: mensagem.echo_req?.parameters?.contract_type ?? null,
+
+            subscriptionId: null
+
+        });
 
         console.log("");
         console.log("📡 CONTRACT MONITOR");

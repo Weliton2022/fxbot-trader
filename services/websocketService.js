@@ -2,6 +2,7 @@ const WebSocket = require("ws");
 
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
+const subscriptionService = require("./subscriptionService");
 
 class WebSocketService {
 
@@ -126,9 +127,39 @@ class WebSocketService {
 
             case "proposal_open_contract":
 
+            case "forget":
+
+    console.log("");
+    console.log("✅ EVENTO -> FORGET_MESSAGE");
+    console.log("");
+
+    eventBus.emit(
+
+        EVENTS.FORGET_MESSAGE,
+
+        mensagem
+
+    );
+
+    break;
+
     console.log("");
     console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
     console.log("");
+
+    if (
+        mensagem.subscription &&
+        mensagem.subscription.id &&
+        mensagem.proposal_open_contract &&
+        mensagem.proposal_open_contract.contract_id
+    ) {
+
+        subscriptionService.registrar(
+            mensagem.proposal_open_contract.contract_id,
+            mensagem.subscription.id
+        );
+
+    }
 
     eventBus.emit(
         EVENTS.OPEN_CONTRACT_MESSAGE,

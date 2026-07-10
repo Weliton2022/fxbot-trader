@@ -1,6 +1,9 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
+const subscriptionService = require("../services/subscriptionService");
+const contractRegistry = require("../services/contractRegistry");
+
 class ContractResultEngine {
 
     constructor() {
@@ -41,7 +44,33 @@ class ContractResultEngine {
         console.log(`Venda    : ${contrato.sell_price}`);
         console.log("");
 
-        eventBus.emit(EVENTS.TRADE_CLOSED, contrato);
+        // Atualiza o Registry
+        contractRegistry.finalizar(
+
+            contrato.status,
+
+            contrato.profit
+
+        );
+
+        // Remove a assinatura do contrato
+        subscriptionService.esquecer(
+
+            contrato.contract_id
+
+        );
+
+        // Notifica a plataforma
+        eventBus.emit(
+
+            EVENTS.TRADE_CLOSED,
+
+            contrato
+
+        );
+
+        // Limpa o Registry
+        contractRegistry.reset();
 
     }
 

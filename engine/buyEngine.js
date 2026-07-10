@@ -1,7 +1,10 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
-const derivBroker = require("../services/derivBroker");
+const BrokerFactory = require("../brokers/BrokerFactory");
+
+// Broker utilizado pela plataforma
+const broker = BrokerFactory.create();
 
 class BuyEngine {
 
@@ -24,7 +27,7 @@ class BuyEngine {
         console.log(`Preço       : ${dados.price}`);
         console.log("");
 
-        await derivBroker.buy(
+        await broker.buy(
 
             dados.proposalId,
 

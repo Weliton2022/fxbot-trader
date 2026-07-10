@@ -1,12 +1,15 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
-const derivBroker = require("../services/derivBroker");
+const BrokerFactory = require("../brokers/BrokerFactory");
 
 const ExecutionRequest = require("../models/ExecutionRequest");
 
 const config = require("../config/fxbot");
 const marketService = require("../services/marketService");
+
+// Broker utilizado pela plataforma
+const broker = BrokerFactory.create();
 
 class ExecutionEngine {
 
@@ -53,7 +56,7 @@ class ExecutionEngine {
         console.log(`Duração    : ${request.duration}`);
         console.log("");
 
-        await derivBroker.proposal(request);
+        await broker.proposal(request);
 
     }
 

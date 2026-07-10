@@ -36,6 +36,8 @@ module.exports = {
 
     OPEN_CONTRACT_MESSAGE: "open_contract_message",
 
+    FORGET_MESSAGE: "forget_message",
+
     // =====================================================
     // WebSocket
     // =====================================================
