@@ -8,6 +8,8 @@ class IndicatorEngine {
 
     constructor() {
 
+        console.log("✅ Constructor do IndicatorEngine executado.");
+
         eventBus.on(EVENTS.CANDLE_CLOSED, (candles) => {
 
             this.calcular(candles);
@@ -17,6 +19,8 @@ class IndicatorEngine {
     }
 
     calcular(candles) {
+
+        console.log("🔥 IndicatorEngine recebeu CANDLE_CLOSED");
 
         const indicadores = {
 

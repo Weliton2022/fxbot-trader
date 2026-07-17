@@ -1,0 +1,93 @@
+<div class="current-trade">
+
+    <h2>📈 Operação Atual</h2>
+
+    <% if (hasSnapshot && snapshot.operation) { %>
+
+        <div class="trade-item">
+
+            <strong>Status</strong>
+
+            <span>
+
+                <% if(snapshot.operation.status === "OPEN"){ %>
+
+                    🟢 ABERTA
+
+                <% } else { %>
+
+                    <%= snapshot.operation.status %>
+
+                <% } %>
+
+            </span>
+
+        </div>
+
+        <div class="trade-item">
+
+            <strong>Ativo</strong>
+
+            <span>
+
+                <%= snapshot.market?.display_name
+                    || snapshot.market?.underlying_symbol
+                    || "---" %>
+
+            </span>
+
+        </div>
+
+        <div class="trade-item">
+
+            <strong>Direção</strong>
+
+            <span>
+
+                <%= snapshot.operation.direction %>
+
+            </span>
+
+        </div>
+
+        <div class="trade-item">
+
+            <strong>Stake</strong>
+
+            <span>
+
+                <%= snapshot.operation.stake %> USD
+
+            </span>
+
+        </div>
+
+        <div class="trade-item">
+
+            <strong>Contrato</strong>
+
+            <span>
+
+                <%= snapshot.operation.contractId || "---" %>
+
+            </span>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="waiting-trade">
+
+            <p>🟢 Bot monitorando o mercado...</p>
+
+            <small>
+
+                Nenhuma operação ativa neste momento.
+
+            </small>
+
+        </div>
+
+    <% } %>
+
+</div>

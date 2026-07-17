@@ -1,8 +1,13 @@
 const express = require("express");
+
 const router = express.Router();
 
-const { dashboard } = require("../controllers/dashboardController");
+const dashboardController = require("../controllers/dashboardController");
 
-router.get("/", dashboard);
+router.get("/", (req, res) => {
+
+    dashboardController.index(req, res);
+
+});
 
 module.exports = router;

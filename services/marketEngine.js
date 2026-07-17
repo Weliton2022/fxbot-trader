@@ -119,9 +119,16 @@ class MarketEngine {
 
     processarTick(mensagem) {
 
-        marketService.atualizarTick(mensagem.tick);
+    marketService.atualizarTick(mensagem.tick);
 
-    }
+    console.log(
+        "📈 Tick:",
+        mensagem.tick.quote,
+        "-",
+        mensagem.tick.epoch
+    );
+
+}
 
     // NOVO MÉTODO
     processarHistory(mensagem) {

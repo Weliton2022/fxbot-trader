@@ -18,6 +18,8 @@ module.exports = {
 
     EXECUTE_TRADE: "execute_trade",
 
+    RISK_APPROVED: "risk_approved",
+
     TRADE_OPENED: "trade_opened",
 
     TRADE_CLOSED: "trade_closed",

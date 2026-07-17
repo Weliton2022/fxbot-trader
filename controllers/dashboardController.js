@@ -1,23 +1,22 @@
-const { obterContas } = require("../services/accountService");
+const dashboardService = require("../services/dashboardService");
 
-async function dashboard(req, res) {
+class DashboardController {
 
-    const contas = await obterContas();
+    index(req, res) {
 
-    res.render("dashboard", {
+        const snapshot = dashboardService.obter();
 
-        titulo: "FXBOT Trader",
+        res.render("dashboard", {
 
-        contaDemo: contas.demo,
+            title: "FXBOT Platform",
 
-        contaReal: contas.real
+            snapshot,
+            hasSnapshot: dashboardService.possuiSnapshot()
 
-    });
+        });
+
+    }
 
 }
 
-module.exports = {
-
-    dashboard
-
-};
+module.exports = new DashboardController();

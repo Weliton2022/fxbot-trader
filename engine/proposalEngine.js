@@ -1,6 +1,8 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
+const operationManager = require("../services/operationManager");
+
 class ProposalEngine {
 
     constructor() {
@@ -31,11 +33,27 @@ class ProposalEngine {
 
         const proposal = mensagem.proposal;
 
-        console.log(`ID       : ${proposal.id}`);
-        console.log(`Ask Price: ${proposal.ask_price}`);
-        console.log(`Payout   : ${proposal.payout}`);
-        console.log(`Spot     : ${proposal.spot}`);
+        console.log(`ID         : ${proposal.id}`);
+        console.log(`Ask Price  : ${proposal.ask_price}`);
+        console.log(`Payout     : ${proposal.payout}`);
+        console.log(`Spot       : ${proposal.spot}`);
         console.log("");
+
+        // Atualiza a Operation atual
+        const operation = operationManager.obterAtual();
+
+        if (operation) {
+
+            operation.proposal(proposal);
+
+            console.log("📝 OPERATION");
+            console.log("----------------------------------");
+            console.log("Proposal vinculada à operação.");
+            console.log(`Operation  : ${operation.id}`);
+            console.log(`Proposal   : ${operation.proposalId}`);
+            console.log("");
+
+        }
 
         console.log("📢 Disparando BUY_REQUESTED...");
         console.log("");

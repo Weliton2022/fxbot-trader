@@ -1,89 +1,30 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    background:#0f172a;
-    color:white;
-    font-family:Arial, Helvetica, sans-serif;
+    background:#111;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    margin:0;
 }
 
-.app{
-    display:flex;
-    min-height:100vh;
+.container{
+    width:95%;
+    margin:auto;
+    margin-top:20px;
 }
 
-/* SIDEBAR */
-
-.sidebar{
-
-    width:260px;
-
-    background:#111827;
-
-    border-right:1px solid #1f2937;
-
-    padding:30px;
-
-}
-
-.logo{
-
-    font-size:28px;
-
-    font-weight:bold;
-
-    margin-bottom:40px;
-
-    text-align:center;
-
-}
-
-.sidebar ul{
-
-    list-style:none;
-
-}
-
-.sidebar li{
-
-    padding:18px;
-
-    margin-bottom:12px;
-
+.card{
+    background:#1d1d1d;
     border-radius:10px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+    padding:20px;
+    margin-bottom:20px;
 }
 
-.sidebar li:hover{
-
-    background:#1f2937;
-
+h1{
+    color:#00d084;
 }
 
-.active{
-
-    background:#2563eb;
-
+h2{
+    margin-top:0;
 }
-
-/* CONTENT */
-
-.content{
-
-    flex:1;
-
-    padding:30px;
-
-}
-
-/* TOPBAR */
 
 .topbar{
 
@@ -93,94 +34,424 @@ body{
 
     align-items:center;
 
-    margin-bottom:30px;
+    background:#1b1b1b;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    margin-bottom:20px;
 
 }
 
-.topbar h2{
+.logo h1{
 
-    font-size:36px;
+    color:#00d084;
+
+    margin:0;
 
 }
 
-/* CARDS */
-
-.cards{
+.status{
 
     display:flex;
 
-    gap:20px;
+    align-items:center;
 
-    margin-bottom:30px;
-
-}
-
-.card{
-
-    flex:1;
-
-    background:#1f2937;
-
-    border-radius:14px;
-
-    padding:25px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
-
-}
-
-.card h3{
-
-    color:#9ca3af;
-
-    margin-bottom:15px;
-
-}
-
-.card p{
-
-    font-size:34px;
+    gap:10px;
 
     font-weight:bold;
 
 }
 
-/* CHART */
+.online{
+
+    width:12px;
+
+    height:12px;
+
+    background:#00d084;
+
+    border-radius:50%;
+
+}
+
+.content{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+.sidebar{
+
+    width:220px;
+
+    background:#1b1b1b;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    min-height:600px;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+    padding:0;
+
+}
+
+.sidebar li{
+
+    padding:12px 0;
+
+    border-bottom:1px solid #333;
+
+}
+
+.main-content{
+
+    flex:1;
+
+}
+
+.menu-title{
+
+    color:#00d084;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+
+}
+
+.cards-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:20px;
+
+}
+
+.card{
+
+    background:#1f2636;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.35);
+
+}
+
+.card h3{
+
+    margin-top:0;
+
+    color:#00d084;
+
+}
+
+.card strong{
+
+    font-size:26px;
+
+}
+
+.cards-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+
+    margin-bottom:25px;
+
+}
+
+.card{
+
+    background:#1f2636;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.35);
+
+}
+
+.card h3{
+
+    margin-top:0;
+
+    margin-bottom:18px;
+
+    color:#00d084;
+
+}
+
+.card p{
+
+    margin:6px 0;
+
+    color:#9ca3af;
+
+}
+
+.card span{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+.card hr{
+
+    border:none;
+
+    border-top:1px solid #333;
+
+    margin:14px 0;
+
+}
+
+/* ==========================================
+   DASHBOARD ROW
+========================================== */
+
+.dashboard-row{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+    margin-bottom:25px;
+
+}
+
+/* ==========================================
+   CURRENT TRADE
+========================================== */
+
+.current-trade{
+
+    width:320px;
+
+    background:#1f2636;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.35);
+
+}
+
+.current-trade h2{
+
+    margin-top:0;
+
+    margin-bottom:20px;
+
+    color:#00d084;
+
+}
+
+.trade-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #333;
+
+}
+
+.trade-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.trade-item strong{
+
+    color:#9ca3af;
+
+    font-size:15px;
+
+}
+
+.trade-item span{
+
+    font-weight:bold;
+
+    color:#ffffff;
+
+}
+
+.waiting-trade{
+
+    text-align:center;
+
+    padding:40px 10px;
+
+}
+
+.waiting-trade p{
+
+    color:#00d084;
+
+    font-size:18px;
+
+    margin-bottom:10px;
+
+}
+
+.waiting-trade small{
+
+    color:#9ca3af;
+
+}
+
+/* ==========================================
+   CHART
+========================================== */
 
 .chart{
 
-    background:#1f2937;
-
-    border-radius:14px;
-
-    padding:30px;
-
-    height:320px;
-
-    margin-bottom:30px;
+    flex:1;
 
 }
 
-/* OPERATIONS */
+/* ==========================================
+   RESPONSIVO
+========================================== */
 
-.operations{
+@media(max-width:1200px){
 
-    background:#1f2937;
+    .dashboard-row{
 
-    border-radius:14px;
+        flex-direction:column;
 
-    padding:30px;
+    }
+
+    .current-trade{
+
+        width:100%;
+
+    }
 
 }
 
-.operations ul{
+/* ==========================================
+   ANALYTICS CENTER
+========================================== */
 
-    margin-top:20px;
+.analytics-card{
+
+    background:#1f2636;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.35);
 
 }
 
-.operations li{
+.analytics-card h2{
 
-    margin-bottom:12px;
+    margin-top:0;
+
+    margin-bottom:25px;
+
+    color:#00d084;
+
+}
+
+.analytics-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.analytics-item{
+
+    background:#273246;
+
+    border-radius:10px;
+
+    padding:20px;
+
+    text-align:center;
+
+}
+
+.analytics-title{
+
+    display:block;
+
+    color:#9ca3af;
+
+    margin-bottom:10px;
+
+    font-size:15px;
+
+}
+
+.analytics-value{
+
+    display:block;
+
+    color:#ffffff;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+}
+
+@media(max-width:900px){
+
+    .analytics-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .analytics-grid{
+
+        grid-template-columns:1fr;
+
+    }
 
 }

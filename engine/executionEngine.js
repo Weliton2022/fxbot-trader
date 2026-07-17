@@ -1,15 +1,16 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
-const BrokerFactory = require("../brokers/BrokerFactory");
+const derivBroker = require("../services/derivBroker");
+const operationManager = require("../services/operationManager");
+
+const fxbotState = require("../services/fxbotStateService");
+const { STATES } = require("../services/fxbotStateService");
 
 const ExecutionRequest = require("../models/ExecutionRequest");
 
 const config = require("../config/fxbot");
 const marketService = require("../services/marketService");
-
-// Broker utilizado pela plataforma
-const broker = BrokerFactory.create();
 
 class ExecutionEngine {
 
@@ -17,9 +18,9 @@ class ExecutionEngine {
 
         eventBus.on(EVENTS.EXECUTE_TRADE, async (signal) => {
 
-            await this.executar(signal);
+    await this.executar(signal);
 
-        });
+});
 
     }
 
@@ -27,36 +28,46 @@ class ExecutionEngine {
 
         const ativo = marketService.getAtivoAtual();
 
+        const operation = operationManager.criar({
+
+            symbol: ativo.underlying_symbol,
+
+            direction: signal.isBuy() ? "CALL" : "PUT",
+
+            strategy: signal.strategy || "Default Strategy",
+
+            stake: config.DEFAULT_STAKE
+
+        });
+
         const request = new ExecutionRequest({
 
             signal,
 
-            symbol: ativo.underlying_symbol,
+            symbol: operation.symbol,
 
-            stake: config.DEFAULT_STAKE,
+            stake: operation.stake,
 
             duration: config.DEFAULT_DURATION,
 
-            contractType:
-
-                signal.isBuy()
-
-                    ? "CALL"
-
-                    : "PUT"
+            contractType: operation.direction
 
         });
 
         console.log("");
         console.log("⚙️ EXECUTION ENGINE");
         console.log("----------------------------------");
+        console.log(`Operation  : ${operation.id}`);
         console.log(`Ativo      : ${request.symbol}`);
         console.log(`Contrato   : ${request.contractType}`);
         console.log(`Stake      : ${request.stake}`);
         console.log(`Duração    : ${request.duration}`);
         console.log("");
 
-        await broker.proposal(request);
+        // Atualiza o estado da plataforma
+        fxbotState.setState(STATES.WAITING_PROPOSAL);
+
+        await derivBroker.proposal(request);
 
     }
 

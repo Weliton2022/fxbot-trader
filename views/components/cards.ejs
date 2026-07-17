@@ -1,43 +1,139 @@
-<div class="cards">
+<div class="cards-grid">
 
     <div class="card">
-        <h3>💰 Conta Demo</h3>
 
-        <% if (contaDemo) { %>
+        <h3>🤖 BOT</h3>
 
-            <p><strong>Saldo:</strong> USD <%= contaDemo.balance %></p>
-            <p><strong>Conta:</strong> <%= contaDemo.account_id %></p>
+        <p><strong>Status</strong></p>
+        <span id="bot-state">
+            <%= hasSnapshot ? snapshot.botState : "Aguardando..." %>
+        </span>
 
-        <% } else { %>
+        <hr>
 
-            <p>Conta Demo não encontrada.</p>
+        <p><strong>Broker</strong></p>
+        <span id="bot-broker">
+            <%= hasSnapshot ? snapshot.broker : "---" %>
+        </span>
 
-        <% } %>
+        <hr>
+
+        <p><strong>Estratégia</strong></p>
+        <span id="bot-strategy">
+            <%= hasSnapshot ? snapshot.strategy : "---" %>
+        </span>
 
     </div>
 
     <div class="card">
-        <h3>🏦 Conta Real</h3>
 
-        <% if (contaReal) { %>
+        <h3>💰 FINANCEIRO</h3>
 
-            <p><strong>Saldo:</strong> USD <%= contaReal.balance %></p>
-            <p><strong>Conta:</strong> <%= contaReal.account_id %></p>
+        <p><strong>Lucro Total</strong></p>
 
-        <% } else { %>
+        <span id="financial-profit">
 
-            <p>Conta Real não encontrada.</p>
+            <%= hasSnapshot
+                ? snapshot.financial.totalProfit.toFixed(2) + " USD"
+                : "0.00 USD" %>
 
-        <% } %>
+        </span>
+
+        <hr>
+
+        <p><strong>Trades</strong></p>
+
+        <span id="financial-trades">
+
+            <%= hasSnapshot
+                ? snapshot.financial.totalTrades
+                : 0 %>
+
+        </span>
 
     </div>
 
     <div class="card">
-        <h3>🤖 FXBOT</h3>
 
-        <p>🟢 API Online</p>
+        <h3>📈 PERFORMANCE</h3>
 
-        <p>Pronto para operar</p>
+        <p><strong>Wins</strong></p>
+
+        <span id="financial-wins">
+
+            <%= hasSnapshot
+                ? snapshot.financial.wins
+                : 0 %>
+
+        </span>
+
+        <hr>
+
+        <p><strong>Losses</strong></p>
+
+        <span id="financial-losses">
+
+            <%= hasSnapshot
+                ? snapshot.financial.losses
+                : 0 %>
+
+        </span>
+
+        <hr>
+
+        <p><strong>Win Rate</strong></p>
+
+        <span id="financial-winrate">
+
+            <%
+
+                let rate = "0.0";
+
+                if(hasSnapshot){
+
+                    const total = snapshot.financial.totalTrades;
+
+                    rate = total > 0
+                        ? ((snapshot.financial.wins / total) * 100).toFixed(1)
+                        : "0.0";
+
+                }
+
+            %>
+
+            <%= rate %>%
+
+        </span>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🪙 MERCADO</h3>
+
+        <p><strong>Ativo</strong></p>
+
+        <span id="market-symbol">
+
+            <%= hasSnapshot
+                ? (snapshot.market?.display_name ||
+                   snapshot.market?.underlying_symbol ||
+                   "---")
+                : "---" %>
+
+        </span>
+
+        <hr>
+
+        <p><strong>Última atualização</strong></p>
+
+        <span id="last-update">
+
+            <%= hasSnapshot
+                ? snapshot.timestamp.toLocaleTimeString()
+                : "--:--:--" %>
+
+        </span>
 
     </div>
 

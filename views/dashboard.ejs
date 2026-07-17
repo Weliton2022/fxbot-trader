@@ -1,17 +1,31 @@
-<div class="app">
+<div class="container">
 
-    <%- include("components/sidebar") %>
+    <%- include("components/topbar") %>
 
     <div class="content">
 
-        <%- include("components/topbar") %>
+        <%- include("components/sidebar") %>
 
-        <%- include("components/cards") %>
+        <div class="main-content">
 
-        <%- include("components/chart") %>
+            <%- include("components/cards") %>
 
-        <%- include("components/operations") %>
+            <%- include("components/analytics") %>
+
+            <div class="dashboard-row">
+
+                <%- include("components/currentTrade") %>
+
+                <%- include("components/chart") %>
+
+            </div>
+
+            <%- include("components/operations") %>
+
+        </div>
 
     </div>
 
 </div>
+
+<script src="/js/dashboard.js"></script>

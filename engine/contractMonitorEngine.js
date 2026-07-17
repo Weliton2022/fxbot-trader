@@ -2,7 +2,10 @@ const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
 const websocketService = require("../services/websocketService");
-const contractRegistry = require("../services/contractRegistry");
+const operationManager = require("../services/operationManager");
+
+const fxbotState = require("../services/fxbotStateService");
+const { STATES } = require("../services/fxbotStateService");
 
 class ContractMonitorEngine {
 
@@ -26,25 +29,17 @@ class ContractMonitorEngine {
 
         const contractId = mensagem.buy.contract_id;
 
-        // Registra oficialmente o contrato na plataforma
-        contractRegistry.registrar({
+        // Marca a operação como oficialmente aberta
+        operationManager.abrir(contractId);
 
-            contractId,
-
-            buyPrice: mensagem.buy.buy_price ?? null,
-
-            symbol: mensagem.echo_req?.parameters?.symbol ?? null,
-
-            contractType: mensagem.echo_req?.parameters?.contract_type ?? null,
-
-            subscriptionId: null
-
-        });
+        // Atualiza o estado da plataforma
+        fxbotState.setState(STATES.OPERATING);
 
         console.log("");
         console.log("📡 CONTRACT MONITOR");
         console.log("----------------------------------");
-        console.log(`Contrato: ${contractId}`);
+        console.log(`Contrato : ${contractId}`);
+        console.log("Operação : ABERTA");
         console.log("Iniciando monitoramento...");
         console.log("");
 

@@ -1,0 +1,18 @@
+{
+    "balance": 0,
+    "totalProfit": -73.34999999999886,
+    "dailyProfit": -73.34999999999886,
+    "wins": 827,
+    "losses": 859,
+    "trades": 0,
+    "initialBalance": 0,
+    "currentBalance": 0,
+    "totalTrades": 1686,
+    "currentWinStreak": 0,
+    "currentLossStreak": 5,
+    "maxWinStreak": 14,
+    "maxLossStreak": 8,
+    "currentStake": 0,
+    "stopWinReached": false,
+    "stopLossReached": true
+}

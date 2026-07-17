@@ -3,6 +3,11 @@ const EVENTS = require("../core/events");
 
 const subscriptionService = require("../services/subscriptionService");
 const contractRegistry = require("../services/contractRegistry");
+const operationManager = require("../services/operationManager");
+const tradeHistoryService = require("../services/tradeHistoryService");
+
+const fxbotState = require("../services/fxbotStateService");
+const { STATES } = require("../services/fxbotStateService");
 
 class ContractResultEngine {
 
@@ -26,12 +31,77 @@ class ContractResultEngine {
 
         }
 
-        // Enquanto o contrato estiver aberto
+        const operation = operationManager.obterAtual();
+
+        if (!operation) {
+
+            return;
+
+        }
+
+        if (!operation.contractId) {
+
+            return;
+
+        }
+
+        if (operation.contractId !== contrato.contract_id) {
+
+            console.log("");
+            console.log("🟡 CONTRACT RESULT");
+            console.log("----------------------------------");
+            console.log("Mensagem ignorada.");
+            console.log(`Contrato recebido : ${contrato.contract_id}`);
+            console.log(`Contrato ativo    : ${operation.contractId}`);
+            console.log("");
+
+            return;
+
+        }
+
         if (!contrato.is_sold) {
 
             return;
 
         }
+
+        // Finaliza a operação
+        operation.settlement({
+
+            entrySpot: contrato.entry_spot,
+
+            exitSpot: contrato.exit_spot
+
+        });
+
+        operationManager.fechar(
+
+            contrato.status,
+
+            contrato.profit
+
+        );
+
+        tradeHistoryService.adicionar({
+
+    time: new Date(),
+
+    symbol: operation.symbol,
+
+    direction: operation.direction,
+
+    stake: operation.stake,
+
+    result: contrato.status,
+
+    profit: contrato.profit,
+
+    contractId: contrato.contract_id
+
+});
+
+        // Estado da plataforma
+        fxbotState.setState(STATES.FINISHED);
 
         console.log("");
         console.log("==================================");
@@ -44,7 +114,6 @@ class ContractResultEngine {
         console.log(`Venda    : ${contrato.sell_price}`);
         console.log("");
 
-        // Atualiza o Registry
         contractRegistry.finalizar(
 
             contrato.status,
@@ -53,24 +122,28 @@ class ContractResultEngine {
 
         );
 
-        // Remove a assinatura do contrato
+        // Primeiro notificamos toda a plataforma
+        eventBus.emit(
+
+            EVENTS.TRADE_CLOSED,
+
+            operation
+
+        );
+
+        // Depois limpamos recursos
         subscriptionService.esquecer(
 
             contrato.contract_id
 
         );
 
-        // Notifica a plataforma
-        eventBus.emit(
-
-            EVENTS.TRADE_CLOSED,
-
-            contrato
-
-        );
-
-        // Limpa o Registry
         contractRegistry.reset();
+
+        operationManager.limpar();
+
+        // Pronto para uma nova análise
+        fxbotState.setState(STATES.ANALYSING);
 
     }
 

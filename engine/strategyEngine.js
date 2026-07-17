@@ -19,6 +19,8 @@ class StrategyEngine {
 
     analisar(indicadores) {
 
+        console.log("🔥 StrategyEngine.analisar() foi chamado.");
+
         fxbotState.setState(STATES.ANALYSING);
 
         const signal = movingAverageCross.analisar(indicadores);

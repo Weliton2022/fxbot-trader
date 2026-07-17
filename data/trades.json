@@ -1,0 +1,182 @@
+[
+    {
+        "time": "2026-07-17T22:00:31.681Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813490299
+    },
+    {
+        "time": "2026-07-17T22:00:21.685Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813476599
+    },
+    {
+        "time": "2026-07-17T22:00:11.677Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813462479
+    },
+    {
+        "time": "2026-07-17T22:00:01.931Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813446699
+    },
+    {
+        "time": "2026-07-17T21:59:51.677Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813432079
+    },
+    {
+        "time": "2026-07-17T21:59:41.632Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813415799
+    },
+    {
+        "time": "2026-07-17T21:59:31.679Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813401099
+    },
+    {
+        "time": "2026-07-17T21:59:21.680Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813388099
+    },
+    {
+        "time": "2026-07-17T21:59:11.722Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813375179
+    },
+    {
+        "time": "2026-07-17T21:59:01.715Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813357939
+    },
+    {
+        "time": "2026-07-17T21:58:51.680Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813343339
+    },
+    {
+        "time": "2026-07-17T21:58:41.824Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813329839
+    },
+    {
+        "time": "2026-07-17T21:58:31.647Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813314719
+    },
+    {
+        "time": "2026-07-17T21:58:21.681Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813298779
+    },
+    {
+        "time": "2026-07-17T21:58:11.669Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813284419
+    },
+    {
+        "time": "2026-07-17T21:58:01.670Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813267779
+    },
+    {
+        "time": "2026-07-17T21:57:51.668Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813248359
+    },
+    {
+        "time": "2026-07-17T21:57:41.678Z",
+        "symbol": "stpRNG5",
+        "direction": "PUT",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813235199
+    },
+    {
+        "time": "2026-07-17T21:57:31.764Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "won",
+        "profit": "0.95",
+        "contractId": 5813221799
+    },
+    {
+        "time": "2026-07-17T21:57:21.628Z",
+        "symbol": "stpRNG5",
+        "direction": "CALL",
+        "stake": 1,
+        "result": "lost",
+        "profit": "-1.00",
+        "contractId": 5813207459
+    }
+]

@@ -2,7 +2,9 @@ const WebSocket = require("ws");
 
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
+
 const subscriptionService = require("./subscriptionService");
+const connectionManager = require("./connectionManager");
 
 class WebSocketService {
 
@@ -26,6 +28,8 @@ class WebSocketService {
 
                 this.connected = true;
 
+                connectionManager.conectado();
+
                 console.log("🟢 WebSocket conectado.");
 
                 resolve();
@@ -42,6 +46,8 @@ class WebSocketService {
                 console.log(`Código : ${code}`);
                 console.log(`Motivo : ${reason.toString()}`);
                 console.log("");
+
+                connectionManager.desconectado(code);
 
             });
 
@@ -107,66 +113,67 @@ class WebSocketService {
 
             case "proposal":
 
-    console.log("");
-    console.log("✅ EVENTO -> PROPOSAL_MESSAGE");
-    console.log("");
+                console.log("");
+                console.log("✅ EVENTO -> PROPOSAL_MESSAGE");
+                console.log("");
 
-    eventBus.emit(EVENTS.PROPOSAL_MESSAGE, mensagem);
+                eventBus.emit(EVENTS.PROPOSAL_MESSAGE, mensagem);
 
-    break;
+                break;
 
             case "buy":
 
-    console.log("");
-    console.log("✅ EVENTO -> BUY_MESSAGE");
-    console.log("");
+                console.log("");
+                console.log("✅ EVENTO -> BUY_MESSAGE");
+                console.log("");
 
-    eventBus.emit(EVENTS.BUY_MESSAGE, mensagem);
+                eventBus.emit(EVENTS.BUY_MESSAGE, mensagem);
 
-    break;
+                break;
 
             case "proposal_open_contract":
 
+                console.log("");
+                console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
+                console.log("");
+
+                if (
+                    mensagem.subscription &&
+                    mensagem.subscription.id &&
+                    mensagem.proposal_open_contract &&
+                    mensagem.proposal_open_contract.contract_id
+                ) {
+
+                    subscriptionService.registrar(
+                        mensagem.proposal_open_contract.contract_id,
+                        mensagem.subscription.id
+                    );
+
+                }
+
+                eventBus.emit(
+                    EVENTS.OPEN_CONTRACT_MESSAGE,
+                    mensagem
+                );
+
+                break;
+
             case "forget":
 
-    console.log("");
-    console.log("✅ EVENTO -> FORGET_MESSAGE");
-    console.log("");
+                console.log("");
+                console.log("✅ EVENTO -> FORGET_MESSAGE");
+                console.log("");
 
-    eventBus.emit(
+                if (EVENTS.FORGET_MESSAGE) {
 
-        EVENTS.FORGET_MESSAGE,
+                    eventBus.emit(
+                        EVENTS.FORGET_MESSAGE,
+                        mensagem
+                    );
 
-        mensagem
+                }
 
-    );
-
-    break;
-
-    console.log("");
-    console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
-    console.log("");
-
-    if (
-        mensagem.subscription &&
-        mensagem.subscription.id &&
-        mensagem.proposal_open_contract &&
-        mensagem.proposal_open_contract.contract_id
-    ) {
-
-        subscriptionService.registrar(
-            mensagem.proposal_open_contract.contract_id,
-            mensagem.subscription.id
-        );
-
-    }
-
-    eventBus.emit(
-        EVENTS.OPEN_CONTRACT_MESSAGE,
-        mensagem
-    );
-
-    break;
+                break;
 
             case "balance":
 

@@ -8,14 +8,21 @@ const marketDataEngine = require("../engine/marketDataEngine");
 const buyEngine = require("../engine/buyEngine");
 const contractMonitorEngine = require("../engine/contractMonitorEngine");
 const contractResultEngine = require("../engine/contractResultEngine");
-const tradeManager = require("../engine/tradeManager");
+const moneyManager = require("../engine/moneyManager");
+const riskManager = require("../engine/riskManager");
+const platformDashboardEngine = require("../engine/platformDashboardEngine");
 
 const marketEngine = require("../services/marketEngine");
+const financialStateService = require("../services/financialStateService");
 
 async function startup() {
 
+    // Inicializa os Engines
     void candleEngine;
     void indicatorEngine;
+
+    console.log("✅ IndicatorEngine carregado.");
+    
     void strategyEngine;
     void signalValidator;
     void executionEngine;
@@ -24,14 +31,28 @@ async function startup() {
     void buyEngine;
     void contractMonitorEngine;
     void contractResultEngine;
-    void tradeManager;
+    void moneyManager;
+    void riskManager;
+    void platformDashboardEngine;
 
     console.log("");
     console.log("====================================");
-    console.log("      FXBOT TRADER");
+    console.log("      FXBOT PLATFORM");
     console.log("====================================");
+    console.log("Core...............OK");
+    console.log("Trading Engine.....OK");
+    console.log("Money Manager......OK");
     console.log("");
 
+    // Carrega estatísticas persistidas
+    console.log("📊 Carregando estatísticas...");
+
+    financialStateService.carregar();
+
+    console.log("✅ Estatísticas carregadas.");
+    console.log("");
+
+    // Inicia o Market Engine
     await marketEngine.iniciar();
 
 }

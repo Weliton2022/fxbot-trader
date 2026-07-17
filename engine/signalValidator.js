@@ -1,6 +1,8 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
-const tradeState = require("../services/tradeStateService");
+const riskService = require("../services/riskService");
+
+const operationManager = require("../services/operationManager");
 
 class SignalValidator {
 
@@ -42,10 +44,10 @@ class SignalValidator {
 
         }
 
-        if (tradeState.estaOperando()) {
+        if (operationManager.existeOperacao()) {
 
             console.log("");
-            console.log("🚫 TRADE MANAGER");
+            console.log("🚫 OPERATION MANAGER");
             console.log("----------------------------------");
             console.log("Status : Ignorado");
             console.log("Motivo : Já existe uma operação aberta.");
@@ -54,6 +56,21 @@ class SignalValidator {
             return;
 
         }
+
+        const risco = riskService.podeOperar();
+
+if (!risco.permitido) {
+
+    console.log("");
+    console.log("🛡 RISK CENTER");
+    console.log("----------------------------------");
+    console.log("Status : BLOQUEADO");
+    console.log(`Motivo : ${risco.motivo}`);
+    console.log("");
+
+    return;
+
+}
 
         console.log("");
         console.log("🚦 SIGNAL VALIDATOR");
