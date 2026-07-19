@@ -4,52 +4,43 @@ const EVENTS = require("../core/events");
 const DashboardSnapshot = require("../models/DashboardSnapshot");
 
 const dashboardService = require("../services/dashboardService");
-const fxbotState = require("../services/fxbotStateService");
-const financialState = require("../services/financialStateService");
-const operationManager = require("../services/operationManager");
-const marketService = require("../services/marketService");
+const platformStateService = require("../services/platformStateService");
 
 class PlatformDashboardEngine {
 
     constructor() {
 
-        eventBus.on(EVENTS.TRADE_OPENED, () => {
+        eventBus.on(EVENTS.TRADE_OPENED, () => this.atualizar());
 
-            this.atualizar();
+        eventBus.on(EVENTS.TRADE_CLOSED, () => this.atualizar());
 
-        });
-
-        eventBus.on(EVENTS.TRADE_CLOSED, () => {
-
-            this.atualizar();
-
-        });
-
-        eventBus.on(EVENTS.INDICATORS_UPDATED, () => {
-
-            this.atualizar();
-
-        });
+        eventBus.on(EVENTS.INDICATORS_UPDATED, () => this.atualizar());
 
     }
 
     atualizar() {
 
+        const state = platformStateService.get();
+
         const snapshot = new DashboardSnapshot({
 
-    botState: fxbotState.getState(),
+            botState: state.bot.state,
 
-    operation: operationManager.obterAtual(),
+            operation: state.operation,
 
-    financial: financialState.data,
+            financial: state.financial,
 
-    market: marketService.getAtivoAtual(),
+            session: state.financial.session ?? {},
 
-    strategy: "MovingAverageCross",
+            lifecycle: state.lifecycle,
 
-    broker: "Deriv Demo"
+            market: state.market.active,
 
-});
+            strategy: "MovingAverageCross",
+
+            broker: "Deriv Demo"
+
+        });
 
         dashboardService.atualizar(snapshot);
 
@@ -58,8 +49,6 @@ class PlatformDashboardEngine {
     }
 
     render(snapshot) {
-
-        console.clear();
 
         console.log("");
         console.log("====================================================");
@@ -70,9 +59,12 @@ class PlatformDashboardEngine {
         console.log("🤖 BOT");
         console.log("----------------------------------------------------");
         console.log(`Estado...........: ${snapshot.botState}`);
+        console.log(`Lifecycle........: ${snapshot.lifecycle?.stage ?? "IDLE"}`);
         console.log(`Versão...........: ${snapshot.version}`);
         console.log(`Atualizado.......: ${snapshot.timestamp.toLocaleTimeString()}`);
         console.log(`Ativo............: ${snapshot.market?.underlying_symbol ?? "---"}`);
+        console.log(`Estratégia.......: ${snapshot.strategy}`);
+        console.log(`Broker...........: ${snapshot.broker}`);
         console.log("");
 
         console.log("📈 OPERAÇÃO");
@@ -95,11 +87,20 @@ class PlatformDashboardEngine {
 
         console.log("💰 FINANCEIRO");
         console.log("----------------------------------------------------");
-        console.log(`Trades...........: ${snapshot.financial.totalTrades}`);
+        console.log(`Trades Total.....: ${snapshot.financial.totalTrades}`);
         console.log(`Wins.............: ${snapshot.financial.wins}`);
         console.log(`Losses...........: ${snapshot.financial.losses}`);
-        console.log(`Lucro Total......: ${snapshot.financial.totalProfit.toFixed(2)}`);
-        console.log(`Lucro Diário.....: ${snapshot.financial.dailyProfit.toFixed(2)}`);
+        console.log(`Lucro Total......: ${Number(snapshot.financial.totalProfit).toFixed(2)}`);
+        console.log(`Lucro Diário.....: ${Number(snapshot.financial.dailyProfit).toFixed(2)}`);
+
+        console.log("");
+
+        console.log("📊 SESSÃO");
+        console.log("----------------------------------------------------");
+        console.log(`Trades Sessão....: ${snapshot.session?.trades ?? 0}`);
+        console.log(`Wins Sessão......: ${snapshot.session?.wins ?? 0}`);
+        console.log(`Losses Sessão....: ${snapshot.session?.losses ?? 0}`);
+        console.log(`Lucro Sessão.....: ${Number(snapshot.session?.totalProfit ?? 0).toFixed(2)}`);
 
         console.log("");
         console.log("====================================================");

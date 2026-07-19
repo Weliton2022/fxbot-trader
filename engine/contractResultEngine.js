@@ -5,6 +5,7 @@ const subscriptionService = require("../services/subscriptionService");
 const contractRegistry = require("../services/contractRegistry");
 const operationManager = require("../services/operationManager");
 const tradeHistoryService = require("../services/tradeHistoryService");
+const tradeLifecycle = require("../services/tradeLifecycleService");
 
 const fxbotState = require("../services/fxbotStateService");
 const { STATES } = require("../services/fxbotStateService");
@@ -65,6 +66,14 @@ class ContractResultEngine {
 
         }
 
+        // ======================================
+        // Trade Lifecycle
+        // ======================================
+
+        tradeLifecycle.data.contractClosedAt = new Date();
+
+        tradeLifecycle.stage("CONTRACT_CLOSED");
+
         // Finaliza a operação
         operation.settlement({
 
@@ -84,21 +93,21 @@ class ContractResultEngine {
 
         tradeHistoryService.adicionar({
 
-    time: new Date(),
+            time: new Date(),
 
-    symbol: operation.symbol,
+            symbol: operation.symbol,
 
-    direction: operation.direction,
+            direction: operation.direction,
 
-    stake: operation.stake,
+            stake: operation.stake,
 
-    result: contrato.status,
+            result: contrato.status,
 
-    profit: contrato.profit,
+            profit: contrato.profit,
 
-    contractId: contrato.contract_id
+            contractId: contrato.contract_id
 
-});
+        });
 
         // Estado da plataforma
         fxbotState.setState(STATES.FINISHED);
@@ -131,6 +140,12 @@ class ContractResultEngine {
 
         );
 
+        // ======================================
+        // Trade Lifecycle
+        // ======================================
+
+        tradeLifecycle.stage("FINISHED");
+
         // Depois limpamos recursos
         subscriptionService.esquecer(
 
@@ -141,6 +156,8 @@ class ContractResultEngine {
         contractRegistry.reset();
 
         operationManager.limpar();
+
+        tradeLifecycle.reset();
 
         // Pronto para uma nova análise
         fxbotState.setState(STATES.ANALYSING);

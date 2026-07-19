@@ -1,18 +1,36 @@
+const fxbotStateService = require("./fxbotStateService");
 const operationManager = require("./operationManager");
-const financialState = require("./financialStateService");
-const sessionManager = require("./sessionManager");
+const financialStateService = require("./financialStateService");
+const marketService = require("./marketService");
+const tradeLifecycleService = require("./tradeLifecycleService");
 
 class PlatformStateService {
 
-    getState() {
+    get() {
 
         return {
 
-            session: sessionManager.get(),
+            timestamp: new Date(),
+
+            bot: {
+
+                state: fxbotStateService.getState()
+
+            },
+
+            market: {
+
+                active: marketService.getAtivoAtual(),
+
+                lastTick: marketService.getUltimoTick()
+
+            },
 
             operation: operationManager.obterAtual(),
 
-            financial: financialState.data
+            financial: financialStateService.data,
+
+            lifecycle: tradeLifecycleService.data
 
         };
 

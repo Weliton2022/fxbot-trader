@@ -1,6 +1,5 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
-const riskService = require("../services/riskService");
 
 const operationManager = require("../services/operationManager");
 
@@ -17,6 +16,12 @@ class SignalValidator {
     }
 
     validar(signal) {
+
+        console.log("");
+        console.log("🟢 PASSO 2");
+        console.log("SignalValidator recebeu SIGNAL");
+        console.log(signal);
+        console.log("");
 
         if (signal.isWait()) {
 
@@ -57,22 +62,10 @@ class SignalValidator {
 
         }
 
-        const risco = riskService.podeOperar();
-
-if (!risco.permitido) {
-
-    console.log("");
-    console.log("🛡 RISK CENTER");
-    console.log("----------------------------------");
-    console.log("Status : BLOQUEADO");
-    console.log(`Motivo : ${risco.motivo}`);
-    console.log("");
-
-    return;
-
-}
-
         console.log("");
+        console.log("➡️ Entrou no SignalValidator");
+        console.log("");
+
         console.log("🚦 SIGNAL VALIDATOR");
         console.log("----------------------------------");
         console.log("Status : APROVADO");

@@ -8,6 +8,10 @@ class DashboardSnapshot {
 
         financial = {},
 
+        session = {},
+
+        lifecycle = {},
+
         market = {},
 
         strategy = "MovingAverageCross",
@@ -25,6 +29,10 @@ class DashboardSnapshot {
         this.operation = operation;
 
         this.financial = financial;
+
+        this.session = session;
+
+        this.lifecycle = lifecycle;
 
         this.market = market;
 

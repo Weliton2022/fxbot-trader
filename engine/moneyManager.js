@@ -19,6 +19,14 @@ class MoneyManager {
 
     processar(operation) {
 
+console.log("");
+console.log("========== MONEY MANAGER ==========");
+console.log("Resultado :", operation.result);
+console.log("Profit    :", operation.profit);
+console.log("Status    :", operation.status);
+console.log("==================================");
+console.log("");
+
         if (!operation) {
 
             console.log("");

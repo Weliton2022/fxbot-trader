@@ -12,14 +12,14 @@ class RiskService {
 
     podeOperar() {
 
-        console.log("");
-        console.log("🛡 RISK CENTER");
-        console.log("----------------------------------");
-        console.log("Daily Profit :", financialState.dailyProfit);
-        console.log("Total Trades :", financialState.totalTrades);
-        console.log("Win Streak   :", financialState.currentWinStreak);
-        console.log("Loss Streak  :", financialState.currentLossStreak);
-        console.log("");
+console.log("");
+console.log("🛡 RISK CENTER");
+console.log("----------------------------------");
+console.log("Financial Daily Profit :", financialState.dailyProfit);
+console.log("Financial Trades       :", financialState.totalTrades);
+console.log("Financial Win Streak   :", financialState.currentWinStreak);
+console.log("Financial Loss Streak  :", financialState.currentLossStreak);
+console.log("");
 
         if (!this.config.enabled) {
 
@@ -62,6 +62,17 @@ class RiskService {
             };
 
         }
+
+console.log("");
+console.log("===== DEBUG RISK =====");
+console.log("Daily Profit :", sessionState.data.dailyProfit);
+console.log("Trades       :", sessionState.data.trades);
+console.log("Win Streak   :", sessionState.data.currentWinStreak);
+console.log("Loss Streak  :", sessionState.data.currentLossStreak);
+console.log("Max Trades   :", this.config.maxTrades);
+console.log("Max Loss     :", this.config.maxLossStreak);
+console.log("======================");
+console.log("");
 
         if (sessionState.data.currentLossStreak >= this.config.maxLossStreak) {
 

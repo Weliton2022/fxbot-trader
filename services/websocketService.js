@@ -32,6 +32,8 @@ class WebSocketService {
 
                 console.log("🟢 WebSocket conectado.");
 
+                eventBus.emit(EVENTS.CONNECTION_OPEN);
+
                 resolve();
 
             });
@@ -46,6 +48,11 @@ class WebSocketService {
                 console.log(`Código : ${code}`);
                 console.log(`Motivo : ${reason.toString()}`);
                 console.log("");
+
+                eventBus.emit(EVENTS.CONNECTION_CLOSED, {
+                    code,
+                    reason: reason.toString()
+                });
 
                 connectionManager.desconectado(code);
 
@@ -99,6 +106,19 @@ class WebSocketService {
 
                 break;
 
+            case "contracts_for":
+
+                console.log("");
+                console.log("📑 EVENTO -> CONTRACTS_FOR_MESSAGE");
+                console.log("");
+
+                eventBus.emit(
+                    EVENTS.CONTRACTS_FOR_MESSAGE,
+                    mensagem
+                );
+
+                break;
+
             case "tick":
 
                 eventBus.emit(EVENTS.TICK_MESSAGE, mensagem);
@@ -134,7 +154,18 @@ class WebSocketService {
             case "proposal_open_contract":
 
                 console.log("");
-                console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
+                console.log("📡 OPEN CONTRACT UPDATE");
+                console.log("----------------------------------");
+
+                if (mensagem.proposal_open_contract) {
+
+                    console.log(`Status.....: ${mensagem.proposal_open_contract.status}`);
+                    console.log(`Is Sold....: ${mensagem.proposal_open_contract.is_sold}`);
+                    console.log(`Expired....: ${mensagem.proposal_open_contract.is_expired}`);
+                    console.log(`Profit.....: ${mensagem.proposal_open_contract.profit}`);
+
+                }
+
                 console.log("");
 
                 if (
@@ -151,6 +182,10 @@ class WebSocketService {
 
                 }
 
+                console.log("");
+                console.log("✅ EVENTO -> OPEN_CONTRACT_MESSAGE");
+                console.log("");
+
                 eventBus.emit(
                     EVENTS.OPEN_CONTRACT_MESSAGE,
                     mensagem
@@ -164,14 +199,10 @@ class WebSocketService {
                 console.log("✅ EVENTO -> FORGET_MESSAGE");
                 console.log("");
 
-                if (EVENTS.FORGET_MESSAGE) {
-
-                    eventBus.emit(
-                        EVENTS.FORGET_MESSAGE,
-                        mensagem
-                    );
-
-                }
+                eventBus.emit(
+                    EVENTS.FORGET_MESSAGE,
+                    mensagem
+                );
 
                 break;
 

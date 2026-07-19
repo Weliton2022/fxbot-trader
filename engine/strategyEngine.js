@@ -34,9 +34,18 @@ class StrategyEngine {
         console.log(`Motivo     : ${signal.reason}`);
         console.log("");
 
-        eventBus.emit(EVENTS.SIGNAL, signal);
+        console.log("");
+console.log("🔵 PASSO 1");
+console.log("Emitindo SIGNAL...");
+console.log(signal);
+console.log("");
 
-        return signal;
+eventBus.emit(EVENTS.SIGNAL, signal);
+
+console.log("✅ SIGNAL emitido.");
+console.log("");
+
+return signal;
 
     }
 

@@ -2,6 +2,8 @@ const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
 const BrokerFactory = require("../brokers/BrokerFactory");
+const riskManagerService = require("../services/riskManagerService");
+const tradeLifecycle = require("../services/tradeLifecycleService");
 
 // Broker utilizado pela plataforma
 const broker = BrokerFactory.create();
@@ -20,6 +22,30 @@ class BuyEngine {
 
     async executar(dados) {
 
+        const risk = riskManagerService.analisar();
+
+        if (!risk.allowed) {
+
+            console.log("");
+            console.log("🛑 RISK MANAGER");
+            console.log("----------------------------------");
+            console.log("Operação BLOQUEADA");
+            console.log(`Motivo: ${risk.reason}`);
+            console.log("");
+
+            return;
+
+        }
+
+        // ======================================
+        // Trade Lifecycle
+        // ======================================
+
+        tradeLifecycle.data.buySentAt = new Date();
+
+        tradeLifecycle.stage("BUY_SENT");
+
+        console.log("➡️ Entrou no BuyEngine");
         console.log("");
         console.log("💰 BUY ENGINE");
         console.log("----------------------------------");

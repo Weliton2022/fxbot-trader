@@ -11,12 +11,13 @@ const ExecutionRequest = require("../models/ExecutionRequest");
 
 const config = require("../config/fxbot");
 const marketService = require("../services/marketService");
+const tradeLifecycle = require("../services/tradeLifecycleService");
 
 class ExecutionEngine {
 
     constructor() {
 
-        eventBus.on(EVENTS.EXECUTE_TRADE, async (signal) => {
+        eventBus.on(EVENTS.RISK_APPROVED, async (signal) => {
 
     await this.executar(signal);
 
@@ -39,6 +40,12 @@ class ExecutionEngine {
             stake: config.DEFAULT_STAKE
 
         });
+
+        tradeLifecycle.data.operationId = operation.id;
+
+        tradeLifecycle.data.createdAt = new Date();
+
+        tradeLifecycle.stage("CREATED");
 
         const request = new ExecutionRequest({
 

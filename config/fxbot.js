@@ -42,13 +42,11 @@ module.exports = {
     // Gerenciamento de Risco
     // =====================================================
 
-    STOP_WIN: 10,
+    STOP_WIN: 9999,
+    STOP_LOSS: -9999,
 
-    STOP_LOSS: -5,
-
-    MAX_TRADES_PER_SESSION: 30,
-
-    MAX_CONSECUTIVE_LOSSES: 3,
+    MAX_TRADES_PER_SESSION: 99999,
+    MAX_CONSECUTIVE_LOSSES: 999,
 
     // =====================================================
     // Logs

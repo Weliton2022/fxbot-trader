@@ -46,6 +46,8 @@ module.exports = {
 
     ACTIVE_SYMBOLS_MESSAGE: "active_symbols_message",
 
+    CONTRACTS_FOR_MESSAGE: "contracts_for_message",
+
     TICK_MESSAGE: "tick_message",
 
     HISTORY_MESSAGE: "history_message",
@@ -58,6 +60,16 @@ module.exports = {
 
     AUTHORIZE_MESSAGE: "authorize_message",
 
-    ERROR_MESSAGE: "error_message"
+    ERROR_MESSAGE: "error_message",
+
+    // =====================================================
+    // Conexão
+    // =====================================================
+
+    CONNECTION_OPEN: "connection_open",
+
+    CONNECTION_CLOSED: "connection_closed",
+
+    CONNECTION_RESTORED: "connection_restored"
 
 };

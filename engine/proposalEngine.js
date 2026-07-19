@@ -1,6 +1,7 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
+const tradeLifecycle = require("../services/tradeLifecycleService");
 const operationManager = require("../services/operationManager");
 
 class ProposalEngine {
@@ -33,6 +34,14 @@ class ProposalEngine {
 
         const proposal = mensagem.proposal;
 
+        // ======================================
+        // Trade Lifecycle
+        // ======================================
+
+        tradeLifecycle.data.proposalReceivedAt = new Date();
+
+        tradeLifecycle.stage("PROPOSAL_RECEIVED");
+
         console.log(`ID         : ${proposal.id}`);
         console.log(`Ask Price  : ${proposal.ask_price}`);
         console.log(`Payout     : ${proposal.payout}`);
@@ -40,12 +49,14 @@ class ProposalEngine {
         console.log("");
 
         // Atualiza a Operation atual
+
         const operation = operationManager.obterAtual();
 
         if (operation) {
 
             operation.proposal(proposal);
 
+            console.log("➡️ Entrou no ProposalEngine");
             console.log("📝 OPERATION");
             console.log("----------------------------------");
             console.log("Proposal vinculada à operação.");

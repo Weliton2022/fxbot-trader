@@ -2,11 +2,10 @@ const accountService = require("./accountService");
 const otpService = require("./otpService");
 const marketService = require("./marketService");
 const websocketService = require("./websocketService");
+const workspaceService = require("./workspaceService");
 
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
-
-const config = require("../config/fxbot");
 
 class MarketEngine {
 
@@ -59,7 +58,6 @@ class MarketEngine {
 
         });
 
-        // NOVO EVENTO
         eventBus.on(EVENTS.HISTORY_MESSAGE, (mensagem) => {
 
             this.processarHistory(mensagem);
@@ -84,9 +82,15 @@ class MarketEngine {
 
         console.log(`Total de ativos: ${mensagem.active_symbols.length}`);
 
+        // ===============================
+        // Workspace
+        // ===============================
+
+        const trading = workspaceService.getTrading();
+
         const ativo = mensagem.active_symbols.find(
 
-            a => a.underlying_symbol === config.DEFAULT_SYMBOL
+            a => a.underlying_symbol === trading.symbol
 
         );
 
@@ -119,18 +123,17 @@ class MarketEngine {
 
     processarTick(mensagem) {
 
-    marketService.atualizarTick(mensagem.tick);
+        marketService.atualizarTick(mensagem.tick);
 
-    console.log(
-        "📈 Tick:",
-        mensagem.tick.quote,
-        "-",
-        mensagem.tick.epoch
-    );
+        console.log(
+            "📈 Tick:",
+            mensagem.tick.quote,
+            "-",
+            mensagem.tick.epoch
+        );
 
-}
+    }
 
-    // NOVO MÉTODO
     processarHistory(mensagem) {
 
         console.log("");

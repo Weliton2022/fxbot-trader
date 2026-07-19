@@ -1,7 +1,7 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
-const financialState = require("../services/financialStateService");
+const sessionState = require("../services/sessionStateService");
 const config = require("../config/fxbot");
 
 class RiskManager {
@@ -18,57 +18,44 @@ class RiskManager {
 
     validar(signal) {
 
-        // ===============================
-        // STOP WIN
-        // ===============================
+// ===============================
+// STOP WIN
+// ===============================
 
-        if (financialState.dailyProfit >= config.STOP_WIN) {
+if (sessionState.data.dailyProfit >= config.STOP_WIN) {
 
-            financialState.stopWinReached = true;
+    console.log("");
+    console.log("🛑 RISK MANAGER");
+    console.log("----------------------------------");
+    console.log("Status : BLOQUEADO");
+    console.log(`Motivo : STOP WIN atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
+    console.log("");
 
-        }
+    return;
 
-        if (financialState.stopWinReached) {
+}
 
-            console.log("");
-            console.log("🛑 RISK MANAGER");
-            console.log("----------------------------------");
-            console.log("Status : BLOQUEADO");
-            console.log(`Motivo : STOP WIN atingido (${financialState.dailyProfit.toFixed(2)} USD)`);
-            console.log("");
+// ===============================
+// STOP LOSS
+// ===============================
 
-            return;
+if (sessionState.data.dailyProfit <= config.STOP_LOSS) {
 
-        }
+    console.log("");
+    console.log("🛑 RISK MANAGER");
+    console.log("----------------------------------");
+    console.log("Status : BLOQUEADO");
+    console.log(`Motivo : STOP LOSS atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
+    console.log("");
 
-        // ===============================
-        // STOP LOSS
-        // ===============================
+    return;
 
-        if (financialState.dailyProfit <= config.STOP_LOSS) {
-
-            financialState.stopLossReached = true;
-
-        }
-
-        if (financialState.stopLossReached) {
-
-            console.log("");
-            console.log("🛑 RISK MANAGER");
-            console.log("----------------------------------");
-            console.log("Status : BLOQUEADO");
-            console.log(`Motivo : STOP LOSS atingido (${financialState.dailyProfit.toFixed(2)} USD)`);
-            console.log("");
-
-            return;
-
-        }
-
+}
         // ===============================
         // LIMITE DE TRADES
         // ===============================
 
-        if (financialState.totalTrades >= config.MAX_TRADES_PER_SESSION) {
+        if (sessionState.data.trades >= config.MAX_TRADES_PER_SESSION) {
 
             console.log("");
             console.log("🛑 RISK MANAGER");
@@ -86,7 +73,7 @@ class RiskManager {
         // ===============================
 
         if (
-            financialState.currentLossStreak >=
+            sessionState.data.currentLossStreak >=
             config.MAX_CONSECUTIVE_LOSSES
         ) {
 

@@ -28,13 +28,27 @@ class SessionStateService {
 
             maxWinStreak: 0,
 
-            maxLossStreak: 0
+            maxLossStreak: 0,
+
+            stopWinReached: false,
+
+            stopLossReached: false
 
         };
 
     }
 
     registrarResultado(operation) {
+
+console.log("");
+console.log("====== SESSION STATE ======");
+console.log("Trades      :", this.data.trades);
+console.log("Wins        :", this.data.wins);
+console.log("Losses      :", this.data.losses);
+console.log("Win Streak  :", this.data.currentWinStreak);
+console.log("Loss Streak :", this.data.currentLossStreak);
+console.log("===========================");
+console.log("");
 
         this.data.trades++;
 

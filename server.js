@@ -68,6 +68,8 @@ const sessionApiRoutes = require("./routes/sessionApiRoutes");
 const analyticsApiRoutes = require("./routes/analyticsApiRoutes");
 const performanceApiRoutes = require("./routes/performanceApiRoutes");
 const intelligenceRoutes = require("./routes/intelligenceRoutes");
+const riskManagerRoutes = require("./routes/riskManagerRoutes");
+const platformApiRoutes = require("./routes/platformApiRoutes");
 const testRoutes = require("./routes/testRoutes");
 
 // ==============================
@@ -106,6 +108,8 @@ app.use("/api/session", sessionApiRoutes);
 app.use("/api/analytics", analyticsApiRoutes);
 app.use("/api/performance", performanceApiRoutes);
 app.use("/api/intelligence", intelligenceRoutes);
+app.use("/api/risk", riskManagerRoutes);
+app.use("/api/platform", platformApiRoutes);
 
 app.use("/test", testRoutes);
 
