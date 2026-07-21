@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const http = require("http");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 
@@ -9,6 +10,8 @@ const expressLayouts = require("express-ejs-layouts");
 // ==============================
 
 const app = express();
+const server = http.createServer(app);
+const socketServer = require("./socket/socketServer");
 
 console.log("");
 console.log("1️⃣ server.js carregado.");
@@ -70,6 +73,8 @@ const performanceApiRoutes = require("./routes/performanceApiRoutes");
 const intelligenceRoutes = require("./routes/intelligenceRoutes");
 const riskManagerRoutes = require("./routes/riskManagerRoutes");
 const platformApiRoutes = require("./routes/platformApiRoutes");
+const botControlRoutes = require("./routes/botControlRoutes");
+const configRoutes = require("./routes/configRoutes");
 const testRoutes = require("./routes/testRoutes");
 
 // ==============================
@@ -110,6 +115,8 @@ app.use("/api/performance", performanceApiRoutes);
 app.use("/api/intelligence", intelligenceRoutes);
 app.use("/api/risk", riskManagerRoutes);
 app.use("/api/platform", platformApiRoutes);
+app.use("/api/bot", botControlRoutes);
+app.use("/api/config", configRoutes);
 
 app.use("/test", testRoutes);
 
@@ -125,9 +132,11 @@ const startup = require("./bootstrap/startup");
 
 const PORT = process.env.PORT || 3000;
 
-console.log("2️⃣ Antes do app.listen()");
+console.log("2️⃣ Antes do server.listen()");
 
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
+
+    socketServer.initialize(server);
 
     console.log("");
     console.log("======================================");

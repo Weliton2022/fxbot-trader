@@ -1,17 +1,91 @@
+const fs = require("fs");
+const path = require("path");
+
 const defaults = require("../config/fxbot");
+
+const CONFIG_FILE = path.join(__dirname, "../data/config.json");
 
 class ConfigService {
 
     constructor() {
 
-        // Carrega uma cópia das configurações padrão
-        this.config = structuredClone(defaults);
+        this.config = this.load();
+
+    }
+
+    // =====================================================
+    // Carrega configuração
+    // =====================================================
+
+    load() {
+
+        try {
+
+            if (!fs.existsSync(CONFIG_FILE)) {
+
+                fs.writeFileSync(
+                    CONFIG_FILE,
+                    JSON.stringify(defaults, null, 4)
+                );
+
+                console.log("📄 config.json criado automaticamente.");
+
+                return structuredClone(defaults);
+
+            }
+
+            const json = fs.readFileSync(CONFIG_FILE, "utf8");
+
+            const config = JSON.parse(json);
+
+            console.log("✅ Configuração carregada do config.json");
+
+            return config;
+
+        } catch (err) {
+
+            console.log("❌ Erro carregando config.json");
+            console.error(err);
+
+            return structuredClone(defaults);
+
+        }
+
+    }
+
+    // =====================================================
+    // Salva configuração
+    // =====================================================
+
+    save() {
+
+        try {
+
+            fs.writeFileSync(
+                CONFIG_FILE,
+                JSON.stringify(this.config, null, 4)
+            );
+
+            console.log("💾 Configuração salva.");
+
+        } catch (err) {
+
+            console.log("❌ Erro salvando config.json");
+            console.error(err);
+
+        }
 
     }
 
     // =====================================================
     // Configuração completa
     // =====================================================
+
+    get() {
+
+        return this.config;
+
+    }
 
     getAll() {
 
@@ -113,6 +187,8 @@ class ConfigService {
         }
 
         this.config[key] = value;
+
+        this.save();
 
         return true;
 

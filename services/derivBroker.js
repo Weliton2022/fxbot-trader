@@ -1,8 +1,6 @@
 const BrokerService = require("./brokerService");
 const websocketService = require("./websocketService");
 const proposalService = require("./proposalService");
-const fxbotState = require("./fxbotStateService");
-const { STATES } = require("./fxbotStateService");
 
 class DerivBroker extends BrokerService {
 
@@ -25,12 +23,10 @@ class DerivBroker extends BrokerService {
         console.log("");
         console.log("📄 ENVIANDO PROPOSAL");
         console.log("----------------------------------");
-       console.log(JSON.stringify(proposal, null, 2));
-console.log("");
+        console.log(JSON.stringify(proposal, null, 2));
+        console.log("");
 
-fxbotState.setState(STATES.WAITING_PROPOSAL);
-
-websocketService.enviar(proposal);
+        websocketService.enviar(proposal);
 
         console.log("");
         console.log("✅ Proposal enviada ao WebSocket.");
@@ -40,24 +36,22 @@ websocketService.enviar(proposal);
 
     async buy(proposalId, price) {
 
-    console.log("");
-    console.log("🚀 ENVIANDO BUY PARA DERIV");
-    console.log("----------------------------------");
-    console.log(`Proposal ID : ${proposalId}`);
-    console.log(`Preço Máximo: ${price}`);
-    console.log("");
+        console.log("");
+        console.log("🚀 ENVIANDO BUY PARA DERIV");
+        console.log("----------------------------------");
+        console.log(`Proposal ID : ${proposalId}`);
+        console.log(`Preço Máximo: ${price}`);
+        console.log("");
 
-    fxbotState.setState(STATES.BUYING);
+        websocketService.enviar({
 
-websocketService.enviar({
+            buy: proposalId,
 
-    buy: proposalId,
+            price
 
-    price
+        });
 
-});
-
-}
+    }
 
 }
 

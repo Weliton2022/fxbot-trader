@@ -7,6 +7,9 @@ const operationManager = require("../services/operationManager");
 const tradeHistoryService = require("../services/tradeHistoryService");
 const tradeLifecycle = require("../services/tradeLifecycleService");
 
+const financialStateService = require("../services/financialStateService");
+const sessionStateService = require("../services/sessionStateService");
+
 const fxbotState = require("../services/fxbotStateService");
 const { STATES } = require("../services/fxbotStateService");
 
@@ -26,25 +29,13 @@ class ContractResultEngine {
 
         const contrato = mensagem.proposal_open_contract;
 
-        if (!contrato) {
-
-            return;
-
-        }
+        if (!contrato) return;
 
         const operation = operationManager.obterAtual();
 
-        if (!operation) {
+        if (!operation) return;
 
-            return;
-
-        }
-
-        if (!operation.contractId) {
-
-            return;
-
-        }
+        if (!operation.contractId) return;
 
         if (operation.contractId !== contrato.contract_id) {
 
@@ -60,9 +51,33 @@ class ContractResultEngine {
 
         }
 
-        if (!contrato.is_sold) {
+        const contratoFinalizado =
+            contrato.is_sold ||
+            contrato.is_expired ||
+            contrato.status === "won" ||
+            contrato.status === "lost";
+
+        if (!contratoFinalizado) {
 
             return;
+
+        }
+
+        // ======================================
+        // Determina o resultado real
+        // ======================================
+
+        const profit = Number(contrato.profit || 0);
+
+        let resultado = "draw";
+
+        if (profit > 0) {
+
+            resultado = "won";
+
+        } else if (profit < 0) {
+
+            resultado = "lost";
 
         }
 
@@ -74,7 +89,10 @@ class ContractResultEngine {
 
         tradeLifecycle.stage("CONTRACT_CLOSED");
 
-        // Finaliza a operação
+        // ======================================
+        // Finaliza operação
+        // ======================================
+
         operation.settlement({
 
             entrySpot: contrato.entry_spot,
@@ -85,11 +103,35 @@ class ContractResultEngine {
 
         operationManager.fechar(
 
-            contrato.status,
+            resultado,
 
-            contrato.profit
+            profit
 
         );
+
+        // ======================================
+        // Atualiza Financeiro Global
+        // ======================================
+
+        financialStateService.registrarResultado({
+
+            profit
+
+        });
+
+        // ======================================
+        // Atualiza Estatísticas da Sessão
+        // ======================================
+
+        sessionStateService.registrarResultado({
+
+            profit
+
+        });
+
+        // ======================================
+        // Histórico
+        // ======================================
 
         tradeHistoryService.adicionar({
 
@@ -101,15 +143,18 @@ class ContractResultEngine {
 
             stake: operation.stake,
 
-            result: contrato.status,
+            result: resultado,
 
-            profit: contrato.profit,
+            profit,
 
             contractId: contrato.contract_id
 
         });
 
-        // Estado da plataforma
+        // ======================================
+        // Estado da Plataforma
+        // ======================================
+
         fxbotState.setState(STATES.FINISHED);
 
         console.log("");
@@ -117,21 +162,24 @@ class ContractResultEngine {
         console.log("📄 CONTRATO ENCERRADO");
         console.log("==================================");
         console.log(`Contrato : ${contrato.contract_id}`);
-        console.log(`Status   : ${contrato.status}`);
-        console.log(`Lucro    : ${contrato.profit}`);
-        console.log(`Compra   : ${contrato.buy_price}`);
-        console.log(`Venda    : ${contrato.sell_price}`);
+        console.log(`Resultado: ${resultado.toUpperCase()}`);
+        console.log(`Lucro    : ${profit}`);
+        console.log(`Compra   : ${contrato.buy_price ?? "-"}`);
+        console.log(`Venda    : ${contrato.sell_price ?? "-"}`);
         console.log("");
 
         contractRegistry.finalizar(
 
-            contrato.status,
+            resultado,
 
-            contrato.profit
+            profit
 
         );
 
-        // Primeiro notificamos toda a plataforma
+        // ======================================
+        // Notifica a Plataforma
+        // ======================================
+
         eventBus.emit(
 
             EVENTS.TRADE_CLOSED,
@@ -140,13 +188,12 @@ class ContractResultEngine {
 
         );
 
-        // ======================================
-        // Trade Lifecycle
-        // ======================================
-
         tradeLifecycle.stage("FINISHED");
 
-        // Depois limpamos recursos
+        // ======================================
+        // Limpeza
+        // ======================================
+
         subscriptionService.esquecer(
 
             contrato.contract_id
@@ -159,7 +206,6 @@ class ContractResultEngine {
 
         tradeLifecycle.reset();
 
-        // Pronto para uma nova análise
         fxbotState.setState(STATES.ANALYSING);
 
     }

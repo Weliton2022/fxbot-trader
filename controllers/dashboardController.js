@@ -6,11 +6,12 @@ class DashboardController {
 
         const snapshot = dashboardService.obter();
 
-        res.render("dashboard", {
+        res.render("pages/dashboard", {
 
             title: "FXBOT Platform",
 
             snapshot,
+
             hasSnapshot: dashboardService.possuiSnapshot()
 
         });

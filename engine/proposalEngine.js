@@ -4,6 +4,9 @@ const EVENTS = require("../core/events");
 const tradeLifecycle = require("../services/tradeLifecycleService");
 const operationManager = require("../services/operationManager");
 
+const fxbotState = require("../services/fxbotStateService");
+const { STATES } = require("../services/fxbotStateService");
+
 class ProposalEngine {
 
     constructor() {
@@ -48,23 +51,39 @@ class ProposalEngine {
         console.log(`Spot       : ${proposal.spot}`);
         console.log("");
 
-        // Atualiza a Operation atual
+        // ======================================
+        // Atualiza a operação atual
+        // ======================================
 
         const operation = operationManager.obterAtual();
 
-        if (operation) {
+        if (!operation) {
 
-            operation.proposal(proposal);
-
-            console.log("➡️ Entrou no ProposalEngine");
-            console.log("📝 OPERATION");
+            console.log("");
+            console.log("⚠ OPERATION MANAGER");
             console.log("----------------------------------");
-            console.log("Proposal vinculada à operação.");
-            console.log(`Operation  : ${operation.id}`);
-            console.log(`Proposal   : ${operation.proposalId}`);
+            console.log("Nenhuma operação ativa para vincular a Proposal.");
             console.log("");
 
+            return;
+
         }
+
+        operation.proposal(proposal);
+
+        console.log("➡️ Entrou no ProposalEngine");
+        console.log("📝 OPERATION");
+        console.log("----------------------------------");
+        console.log("Proposal vinculada à operação.");
+        console.log(`Operation  : ${operation.id}`);
+        console.log(`Proposal   : ${operation.proposalId}`);
+        console.log("");
+
+        // ======================================
+        // Atualiza o estado da plataforma
+        // ======================================
+
+        fxbotState.transition(STATES.BUYING);
 
         console.log("📢 Disparando BUY_REQUESTED...");
         console.log("");

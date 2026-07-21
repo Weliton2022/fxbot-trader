@@ -3,6 +3,8 @@ const operationManager = require("./operationManager");
 const financialStateService = require("./financialStateService");
 const marketService = require("./marketService");
 const tradeLifecycleService = require("./tradeLifecycleService");
+const sessionStateService = require("./sessionStateService");
+const configService = require("./configService");
 
 class PlatformStateService {
 
@@ -30,7 +32,11 @@ class PlatformStateService {
 
             financial: financialStateService.data,
 
-            lifecycle: tradeLifecycleService.data
+            session: sessionStateService.data,
+
+            lifecycle: tradeLifecycleService.data,
+
+            config: configService.get()
 
         };
 

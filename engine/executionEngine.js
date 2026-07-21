@@ -4,12 +4,14 @@ const EVENTS = require("../core/events");
 const derivBroker = require("../services/derivBroker");
 const operationManager = require("../services/operationManager");
 
+const botControl = require("../services/botControlService");
+
 const fxbotState = require("../services/fxbotStateService");
 const { STATES } = require("../services/fxbotStateService");
 
 const ExecutionRequest = require("../models/ExecutionRequest");
 
-const config = require("../config/fxbot");
+const configService = require("../services/configService");
 const marketService = require("../services/marketService");
 const tradeLifecycle = require("../services/tradeLifecycleService");
 
@@ -19,15 +21,34 @@ class ExecutionEngine {
 
         eventBus.on(EVENTS.RISK_APPROVED, async (signal) => {
 
-    await this.executar(signal);
+            await this.executar(signal);
 
-});
+        });
 
     }
 
     async executar(signal) {
 
+        // ======================================
+        // BOT PAUSADO
+        // ======================================
+
+        if (!botControl.isRunning()) {
+
+            console.log("");
+            console.log("⏸ EXECUTION ENGINE");
+            console.log("----------------------------------");
+            console.log("Bot pausado.");
+            console.log("Execução ignorada.");
+            console.log("");
+
+            return;
+
+        }
+
         const ativo = marketService.getAtivoAtual();
+
+        const trading = configService.getTrading();
 
         const operation = operationManager.criar({
 
@@ -37,14 +58,12 @@ class ExecutionEngine {
 
             strategy: signal.strategy || "Default Strategy",
 
-            stake: config.DEFAULT_STAKE
+            stake: trading.stake
 
         });
 
         tradeLifecycle.data.operationId = operation.id;
-
         tradeLifecycle.data.createdAt = new Date();
-
         tradeLifecycle.stage("CREATED");
 
         const request = new ExecutionRequest({
@@ -55,7 +74,7 @@ class ExecutionEngine {
 
             stake: operation.stake,
 
-            duration: config.DEFAULT_DURATION,
+            duration: trading.duration,
 
             contractType: operation.direction
 
@@ -71,7 +90,6 @@ class ExecutionEngine {
         console.log(`Duração    : ${request.duration}`);
         console.log("");
 
-        // Atualiza o estado da plataforma
         fxbotState.setState(STATES.WAITING_PROPOSAL);
 
         await derivBroker.proposal(request);

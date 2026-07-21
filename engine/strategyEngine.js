@@ -1,5 +1,6 @@
 const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
+
 const movingAverageCross = require("../strategies/MovingAverageCross");
 
 const fxbotState = require("../services/fxbotStateService");
@@ -19,9 +20,33 @@ class StrategyEngine {
 
     analisar(indicadores) {
 
+        console.log("");
+        console.log("########################################");
+        console.log("######## STRATEGY ENGINE V2 ########");
+        console.log("########################################");
+        console.log("");
+
         console.log("🔥 StrategyEngine.analisar() foi chamado.");
 
-        fxbotState.setState(STATES.ANALYSING);
+        // ======================================
+        // Robô pausado
+        // ======================================
+
+        if (fxbotState.is(STATES.PAUSED)) {
+
+            console.log("");
+            console.log("⏸ FXBOT PAUSADO");
+            console.log("----------------------------------");
+            console.log("Análise ignorada.");
+            console.log("");
+
+            return;
+
+        }
+
+        // ======================================
+        // Executa a estratégia
+        // ======================================
 
         const signal = movingAverageCross.analisar(indicadores);
 
@@ -34,18 +59,17 @@ class StrategyEngine {
         console.log(`Motivo     : ${signal.reason}`);
         console.log("");
 
+        console.log("🔵 PASSO 1");
+        console.log("Emitindo SIGNAL...");
+        console.log(signal);
         console.log("");
-console.log("🔵 PASSO 1");
-console.log("Emitindo SIGNAL...");
-console.log(signal);
-console.log("");
 
-eventBus.emit(EVENTS.SIGNAL, signal);
+        eventBus.emit(EVENTS.SIGNAL, signal);
 
-console.log("✅ SIGNAL emitido.");
-console.log("");
+        console.log("✅ SIGNAL emitido.");
+        console.log("");
 
-return signal;
+        return signal;
 
     }
 

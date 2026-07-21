@@ -1,0 +1,20 @@
+{
+    "DEFAULT_SYMBOL": "stpRNG5",
+    "TIMEFRAME_SECONDS": 5,
+    "MAX_TICKS": 100,
+    "MAX_CANDLES": 500,
+    "MODE": "demo",
+    "AUTO_CONNECT": true,
+    "AUTO_SUBSCRIBE": true,
+    "SMA_FAST": 3,
+    "SMA_SLOW": 5,
+    "DEFAULT_STAKE": 2,
+    "DEFAULT_DURATION": 5,
+    "STOP_WIN": 9999,
+    "STOP_LOSS": -9999,
+    "MAX_TRADES_PER_SESSION": 99999,
+    "MAX_CONSECUTIVE_LOSSES": 999,
+    "DEBUG_MODE": true,
+    "LOG_TO_CONSOLE": true,
+    "LOG_TO_FILE": true
+}

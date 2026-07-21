@@ -4,6 +4,7 @@ const strategyEngine = require("../engine/strategyEngine");
 const signalValidator = require("../engine/signalValidator");
 const executionEngine = require("../engine/executionEngine");
 const proposalEngine = require("../engine/proposalEngine");
+const contractRecoveryEngine = require("../engine/contractRecoveryEngine");
 const marketDataEngine = require("../engine/marketDataEngine");
 const buyEngine = require("../engine/buyEngine");
 const contractMonitorEngine = require("../engine/contractMonitorEngine");
@@ -41,6 +42,11 @@ async function startup() {
     void moneyManager;
     void riskManager;
     void platformDashboardEngine;
+    void contractRecoveryEngine;    
+
+
+
+    
 
     // =====================================
     // Inicializa Services
