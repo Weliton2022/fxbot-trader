@@ -7,6 +7,9 @@ class SignalValidator {
 
     constructor() {
 
+        this.lastSignalKey = null;
+        this.lastSignalTime = 0;
+
         eventBus.on(EVENTS.SIGNAL, (signal) => {
 
             this.validar(signal);
@@ -23,6 +26,10 @@ class SignalValidator {
         console.log(signal);
         console.log("");
 
+        // ======================================
+        // IGNORA WAIT
+        // ======================================
+
         if (signal.isWait()) {
 
             console.log("");
@@ -36,6 +43,10 @@ class SignalValidator {
 
         }
 
+        // ======================================
+        // CONFIANÇA
+        // ======================================
+
         if (signal.confidence < 70) {
 
             console.log("");
@@ -48,6 +59,34 @@ class SignalValidator {
             return;
 
         }
+
+        // ======================================
+        // DUPLICIDADE DE SINAL
+        // ======================================
+
+        const signalKey = `${signal.strategy}_${signal.signal}_${signal.confidence}`;
+
+        if (
+            this.lastSignalKey === signalKey &&
+            (Date.now() - this.lastSignalTime) < 1000
+        ) {
+
+            console.log("");
+            console.log("🚫 SIGNAL DUPLICADO");
+            console.log("----------------------------------");
+            console.log("Mesmo sinal recebido em menos de 1 segundo.");
+            console.log("");
+
+            return;
+
+        }
+
+        this.lastSignalKey = signalKey;
+        this.lastSignalTime = Date.now();
+
+        // ======================================
+        // OPERAÇÃO EM ANDAMENTO
+        // ======================================
 
         if (operationManager.existeOperacao()) {
 

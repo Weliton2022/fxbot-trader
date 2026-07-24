@@ -1,6 +1,32 @@
 console.log("🚀 Dashboard iniciado.");
 
 // ============================================
+// SOCKET.IO
+// ============================================
+
+const socket = io();
+
+socket.on("connect", () => {
+
+    console.log("🟢 Socket conectado.");
+
+});
+
+socket.on("disconnect", () => {
+
+    console.log("🔴 Socket desconectado.");
+
+});
+
+socket.on("platform:update", (snapshot) => {
+
+    console.log("📡 Snapshot recebido");
+
+    console.log(snapshot);
+
+});
+
+// ============================================
 // AUXILIAR
 // ============================================
 

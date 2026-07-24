@@ -52,6 +52,9 @@ class BuyEngine {
         console.log(`Proposal ID : ${dados.proposalId}`);
         console.log(`Preço       : ${dados.price}`);
         console.log("");
+        console.log("🔴 BUY");
+        console.log("Proposal:", dados.proposalId);
+        console.log("TIME:", Date.now());
 
         await broker.buy(
 

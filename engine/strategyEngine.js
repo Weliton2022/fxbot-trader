@@ -63,6 +63,15 @@ class StrategyEngine {
         console.log("Emitindo SIGNAL...");
         console.log(signal);
         console.log("");
+        console.log("");
+        console.log("========================================");
+        console.log("🚦 SIGNAL EMITIDO");
+        console.log("Sinal.....:", signal.signal);
+        console.log("Estratégia:", signal.strategy);
+        console.log("Hora......:", Date.now());
+        console.log("Estado....:", fxbotState.getState());
+        console.log("========================================");
+        console.log("");
 
         eventBus.emit(EVENTS.SIGNAL, signal);
 

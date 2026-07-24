@@ -4,6 +4,7 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
+const cors = require("cors");
 
 // ==============================
 // APP
@@ -90,6 +91,9 @@ app.set("layout", "layouts/main");
 // ==============================
 // MIDDLEWARES
 // ==============================
+
+// Habilita requisições externas (BASE44, Frontend, etc.)
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

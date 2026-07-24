@@ -22,6 +22,17 @@ class ProposalEngine {
     processar(mensagem) {
 
         console.log("");
+        console.log("🟡 PROPOSAL RECEBIDA");
+        console.log("Proposal:", mensagem.proposal?.id);
+        console.log("Hora....:", Date.now());
+        console.log("");
+
+        console.log("");
+        console.log("🟢 PROPOSAL RECEBIDA");
+        console.log("ID:", mensagem.proposal?.id);
+        console.log("TIME:", Date.now());
+
+        console.log("");
         console.log("📨 PROPOSAL RECEBIDA");
         console.log("----------------------------------");
 
@@ -78,6 +89,25 @@ class ProposalEngine {
         console.log(`Operation  : ${operation.id}`);
         console.log(`Proposal   : ${operation.proposalId}`);
         console.log("");
+
+        // ======================================
+        // PROTEÇÃO CONTRA BUY DUPLICADO
+        // ======================================
+
+        if (operation.buyRequested) {
+
+            console.log("");
+            console.log("🚫 BUY BLOQUEADO");
+            console.log("----------------------------------");
+            console.log("Esta operação já enviou um BUY_REQUESTED.");
+            console.log(`Operation  : ${operation.id}`);
+            console.log("");
+
+            return;
+
+        }
+
+        operation.buyRequested = true;
 
         // ======================================
         // Atualiza o estado da plataforma

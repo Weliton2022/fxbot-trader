@@ -2,6 +2,7 @@ const eventBus = require("../core/eventBus");
 const EVENTS = require("../core/events");
 
 const sessionState = require("../services/sessionStateService");
+const operationManager = require("../services/operationManager");
 const config = require("../config/fxbot");
 
 class RiskManager {
@@ -18,39 +19,57 @@ class RiskManager {
 
     validar(signal) {
 
-// ===============================
-// STOP WIN
-// ===============================
+        // ===============================
+        // EXISTE OPERAÇÃO EM ANDAMENTO?
+        // ===============================
 
-if (sessionState.data.dailyProfit >= config.STOP_WIN) {
+        if (operationManager.existeOperacao()) {
 
-    console.log("");
-    console.log("🛑 RISK MANAGER");
-    console.log("----------------------------------");
-    console.log("Status : BLOQUEADO");
-    console.log(`Motivo : STOP WIN atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
-    console.log("");
+            console.log("");
+            console.log("🛑 RISK MANAGER");
+            console.log("----------------------------------");
+            console.log("Status : BLOQUEADO");
+            console.log("Motivo : Já existe uma operação em andamento.");
+            console.log("");
 
-    return;
+            return;
 
-}
+        }
 
-// ===============================
-// STOP LOSS
-// ===============================
+        // ===============================
+        // STOP WIN
+        // ===============================
 
-if (sessionState.data.dailyProfit <= config.STOP_LOSS) {
+        if (sessionState.data.dailyProfit >= config.STOP_WIN) {
 
-    console.log("");
-    console.log("🛑 RISK MANAGER");
-    console.log("----------------------------------");
-    console.log("Status : BLOQUEADO");
-    console.log(`Motivo : STOP LOSS atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
-    console.log("");
+            console.log("");
+            console.log("🛑 RISK MANAGER");
+            console.log("----------------------------------");
+            console.log("Status : BLOQUEADO");
+            console.log(`Motivo : STOP WIN atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
+            console.log("");
 
-    return;
+            return;
 
-}
+        }
+
+        // ===============================
+        // STOP LOSS
+        // ===============================
+
+        if (sessionState.data.dailyProfit <= config.STOP_LOSS) {
+
+            console.log("");
+            console.log("🛑 RISK MANAGER");
+            console.log("----------------------------------");
+            console.log("Status : BLOQUEADO");
+            console.log(`Motivo : STOP LOSS atingido (${sessionState.data.dailyProfit.toFixed(2)} USD)`);
+            console.log("");
+
+            return;
+
+        }
+
         // ===============================
         // LIMITE DE TRADES
         // ===============================

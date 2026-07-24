@@ -14,6 +14,9 @@ const contractsEngine = require("../engine/contractsEngine");
 const moneyManager = require("../engine/moneyManager");
 const riskManager = require("../engine/riskManager");
 const platformDashboardEngine = require("../engine/platformDashboardEngine");
+const eventBus = require("../core/eventBus");
+const EVENTS = require("../core/events");
+const diagnosticService = require("../services/diagnosticService");
 
 const recoveryService = require("../services/recoveryService");
 const contractsGateway = require("../services/contractsGateway");
@@ -44,7 +47,7 @@ async function startup() {
     void platformDashboardEngine;
     void contractRecoveryEngine;    
 
-
+    diagnosticService.iniciar();
 
     
 
@@ -54,6 +57,33 @@ async function startup() {
 
     void recoveryService;
     void contractsGateway;
+
+    console.log("");
+console.log("====================================");
+console.log("📡 EVENTBUS DIAGNOSTIC");
+console.log("====================================");
+
+[
+    EVENTS.TICK,
+    EVENTS.CANDLE_CLOSED,
+    EVENTS.INDICATORS_UPDATED,
+    EVENTS.SIGNAL,
+    EVENTS.EXECUTE_TRADE,
+    EVENTS.RISK_APPROVED,
+    EVENTS.PROPOSAL_MESSAGE,
+    EVENTS.BUY_MESSAGE,
+    EVENTS.OPEN_CONTRACT_MESSAGE
+].forEach(evento => {
+
+    console.log(
+        evento.padEnd(30),
+        eventBus.listenerCount(evento)
+    );
+
+});
+
+    console.log("====================================");
+    console.log("");
 
     console.log("");
     console.log("====================================");
